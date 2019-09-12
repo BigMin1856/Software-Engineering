@@ -14,3 +14,8 @@ Github
 
 ## Communication Tool
 Discord
+
+## Potential Projects
+- Messaging application
+- Cub Activity Tracker
+- 
