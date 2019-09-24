@@ -7,15 +7,14 @@
 - System Developer: All Members
 
 ## Project Idea
-TBD
+Private messaging application w/ FaceTime capability
 
 ## Repository
 Github
 
+## Development Tools
+- Visual Studio
+- Visual Studio Code
+
 ## Communication Tool
 Discord
-
-## Potential Projects
-- Messaging application
-- Cub Activity Tracker
-- 
