@@ -7,7 +7,7 @@
 - System Developer: All Members
 
 ## Project Idea
-Private messaging application w/ FaceTime capability
+Private messaging application with FaceTime / Group Messaging capabilities
 
 ## Repository
 Github
