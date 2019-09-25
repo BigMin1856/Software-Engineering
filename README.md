@@ -6,7 +6,7 @@
 - System Analyst: All Members
 - System Developer: All Members
 
-## Project Idea
+## Project
 Private messaging application with FaceTime / Group Messaging capabilities
 
 ## Repository
