@@ -1,4 +1,4 @@
-# Software-Engineering #
+# CSC-354: Software Engineering I
 ## Project Roles:
 - Project Manager / Team Lead: Marc Minnick
 - System Designer: Joshua Moran
@@ -7,7 +7,7 @@
 - System Developer: All Members
 
 ## Project
-Private messaging application with FaceTime / Group Messaging capabilities
+Encrypted messaging application with FaceTime / Group Messaging capabilities
 
 ## Repository
 Github
@@ -15,6 +15,7 @@ Github
 ## Development Tools
 - Visual Studio
 - Visual Studio Code
+- XCode
 
 ## Communication Tool
 Discord
