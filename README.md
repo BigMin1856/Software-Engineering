@@ -13,8 +13,6 @@ Encrypted messaging application with FaceTime / Group Messaging capabilities
 Github
 
 ## Development Tools
-- Visual Studio
-- Visual Studio Code
 - XCode
 
 ## Communication Tool
