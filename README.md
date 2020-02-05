@@ -14,6 +14,7 @@ Github
 
 ## Development Tools
 - XCode
+- Firebase
 
 ## Communication Tool
 Discord
