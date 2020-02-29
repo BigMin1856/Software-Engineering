@@ -18,6 +18,7 @@
 		4971622A23E3749C005637CE /* TheSlapUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4971622923E3749C005637CE /* TheSlapUITests.swift */; };
 		4971623823E374F0005637CE /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4971623723E374F0005637CE /* GoogleService-Info.plist */; };
 		4971623A23E378FC005637CE /* contacts.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4971623923E378FC005637CE /* contacts.storyboard */; };
+		AC2B016E2409FA8300A2803E /* Assets in Resources */ = {isa = PBXBuildFile; fileRef = AC2B016D2409FA8300A2803E /* Assets */; };
 		B5F0F65F8330895F1062ACD6 /* Pods_TheSlap_TheSlapUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E7699254A0DD89A8069FC8E3 /* Pods_TheSlap_TheSlapUITests.framework */; };
 		B855926BA9EA7F07B0357858 /* Pods_TheSlapTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 908CE71AC1C48C5719F1F6B4 /* Pods_TheSlapTests.framework */; };
 /* End PBXBuildFile section */
@@ -64,6 +65,7 @@
 		68E4FBD96F6FC9D9C942A894 /* Pods-TheSlap.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TheSlap.debug.xcconfig"; path = "Target Support Files/Pods-TheSlap/Pods-TheSlap.debug.xcconfig"; sourceTree = "<group>"; };
 		908CE71AC1C48C5719F1F6B4 /* Pods_TheSlapTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TheSlapTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9091B206B407630056F808C7 /* Pods-TheSlapTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TheSlapTests.debug.xcconfig"; path = "Target Support Files/Pods-TheSlapTests/Pods-TheSlapTests.debug.xcconfig"; sourceTree = "<group>"; };
+		AC2B016D2409FA8300A2803E /* Assets */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Assets; sourceTree = "<group>"; };
 		E7699254A0DD89A8069FC8E3 /* Pods_TheSlap_TheSlapUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TheSlap_TheSlapUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -120,6 +122,7 @@
 		4971620623E3749B005637CE /* TheSlap */ = {
 			isa = PBXGroup;
 			children = (
+				AC2B016D2409FA8300A2803E /* Assets */,
 				4971620723E3749B005637CE /* AppDelegate.swift */,
 				4971620923E3749B005637CE /* SceneDelegate.swift */,
 				4971620B23E3749B005637CE /* ViewController.swift */,
@@ -284,6 +287,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4971621423E3749C005637CE /* LaunchScreen.storyboard in Resources */,
+				AC2B016E2409FA8300A2803E /* Assets in Resources */,
 				4971623823E374F0005637CE /* GoogleService-Info.plist in Resources */,
 				4971621123E3749C005637CE /* Assets.xcassets in Resources */,
 				4971623A23E378FC005637CE /* contacts.storyboard in Resources */,
