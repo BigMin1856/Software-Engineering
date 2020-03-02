@@ -1,5 +1,6 @@
 {
   "projects": {
-    "default": "safelys-cc783"
+    "default": "safely-9ab2f",
+    "staging": "safely-9ab2f"
   }
 }
