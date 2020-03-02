@@ -3,34 +3,34 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>329740912649-n8ia5lhpbm9aralvbfr8fnejbjsb1fdq.apps.googleusercontent.com</string>
+	<string>464639629148-p79e3n7r77h2ughsa5k4lc23rp9rfp5j.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.329740912649-n8ia5lhpbm9aralvbfr8fnejbjsb1fdq</string>
+	<string>com.googleusercontent.apps.464639629148-p79e3n7r77h2ughsa5k4lc23rp9rfp5j</string>
 	<key>API_KEY</key>
-	<string>AIzaSyDZYZy3X16FNt352NYP2C1ZT_FOpJwzHz8</string>
+	<string>AIzaSyARSCEg6qXqfvdnMaMLlEG79Q24YO2jSPI</string>
 	<key>GCM_SENDER_ID</key>
-	<string>329740912649</string>
+	<string>464639629148</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>SafelySent.SafelySent</string>
 	<key>PROJECT_ID</key>
-	<string>safelys-269e4</string>
+	<string>safely-524a4</string>
 	<key>STORAGE_BUCKET</key>
-	<string>safelys-269e4.appspot.com</string>
+	<string>safely-524a4.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
-	<false></false>
+	<false/>
 	<key>IS_ANALYTICS_ENABLED</key>
-	<false></false>
+	<false/>
 	<key>IS_APPINVITE_ENABLED</key>
-	<true></true>
+	<true/>
 	<key>IS_GCM_ENABLED</key>
-	<true></true>
+	<true/>
 	<key>IS_SIGNIN_ENABLED</key>
-	<true></true>
+	<true/>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:329740912649:ios:3f67e7c8463349bf8b10d8</string>
+	<string>1:464639629148:ios:0a1b55f2c8f6c9c7ccd399</string>
 	<key>DATABASE_URL</key>
-	<string>https://safelys-269e4.firebaseio.com</string>
+	<string>https://safely-524a4.firebaseio.com</string>
 </dict>
 </plist>
