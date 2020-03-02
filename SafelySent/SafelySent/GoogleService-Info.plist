@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>329740912649-n8ia5lhpbm9aralvbfr8fnejbjsb1fdq.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.329740912649-n8ia5lhpbm9aralvbfr8fnejbjsb1fdq</string>
+	<key>API_KEY</key>
+	<string>AIzaSyDZYZy3X16FNt352NYP2C1ZT_FOpJwzHz8</string>
+	<key>GCM_SENDER_ID</key>
+	<string>329740912649</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>SafelySent.SafelySent</string>
+	<key>PROJECT_ID</key>
+	<string>safelys-269e4</string>
+	<key>STORAGE_BUCKET</key>
+	<string>safelys-269e4.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:329740912649:ios:3f67e7c8463349bf8b10d8</string>
+	<key>DATABASE_URL</key>
+	<string>https://safelys-269e4.firebaseio.com</string>
+</dict>
+</plist>
