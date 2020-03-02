@@ -6,8 +6,12 @@ target 'SafelySent' do
   use_frameworks!
 
   # Pods for SafelySent
-
+  pod 'FirebaseUI/Auth'
   pod 'Firebase/Analytics'
+
+  pod 'FirebaseUI/Google'
+  pod 'FirebaseUI'
+  
   target 'SafelySentTests' do
     inherit! :search_paths
     # Pods for testing
