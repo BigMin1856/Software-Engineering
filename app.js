@@ -1,43 +1,27 @@
 
-//get elements
-const txtEmail = document.getElementById('txtEmail')
-const txtPassword = document.getElementById('txtPassword')
-const btnLogin = document.getElementById('btnLogin')
-const btnSignUp = document.getElementById('btnSignUp')
-const logout = document.getElementById('logout')
+//USER STATE
+firebase.auth().onAuthStateChanged(function (user) {
+    if (user) {
 
-////////////////////////////////////
-// button Login - EVENT LISTENER
-// add login event
-////////////////////////////////////
-btnLogin.addEventListener('click', e => {
-    //get email and password
-    const email = txtEmail.value;
-    const pass = txtPassword.value;
-    //sign in
-    firebase.auth().signInWithEmailAndPassword(email, pass).catch(function (error) {
-        window.alert("error")
-    })
-})
+        document.getElementById("notLoggedIn").style.display = "none";
+        document.getElementById("loggedIn").style.display = "initial";
+        //firebase.auth().signOut();
+    } else {
+        document.getElementById("notLoggedIn").style.display = "initial";
+        document.getElementById("loggedIn").style.display = "none";
+    }
+});
 
-/////////////////////////////////////
-// If user clicks sign up button
-// authenticate them and then sign
-// them in
-////////////////////////////////////
-btnSignUp.addEventListener('click', event => {
-    const email = txtEmail.value;
-    const pass = txtPassword.value
+//window.location.pathname = '/new'
 
-    firebase.auth().createUserWithEmailAndPassword(email, pass).then(() => {
-        window.alert("Thank you for signing up!")
-    }).catch(function (error) {
+function login() {
+
+    let userEmail = document.getElementById("emailField").value
+    let userPassword = document.getElementById("passwordField").value
+    firebase.auth().signInWithEmailAndPassword(userEmail, userPassword).catch(function (error) {
         // Handle Errors here.
-
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        console.log(errorMessage)
     });
-})
-
-function logout() {
-    alert("clicked")
-    firebase.auth().signOut()
 }

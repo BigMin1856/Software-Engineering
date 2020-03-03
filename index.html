@@ -24,89 +24,100 @@
 </head>
 
 <body class="is-preload">
-
-	<!-- Sidebar -->
-	<section id="sidebar">
-		<div class="inner">
-			<nav>
-				<ul>
-					<li><a href="#intro">Welcome</a></li>
-					<li><a href="#one">Login</a></li>
-				</ul>
-			</nav>
-		</div>
-	</section>
-
-	<!-- Wrapper -->
-	<div id="wrapper">
-
-		<!-- Intro -->
-		<section id="intro" class="wrapper style1 fullscreen fade-up">
+	<div id="notLoggedIn">
+		<!-- Sidebar -->
+		<section id="sidebar">
 			<div class="inner">
-				<h1>SafelySent</h1>
-				<p>A Secure Web-Based Messaging App</a><br />
-					<ul class="actions">
-						<li><a href="#one" class="button scrolly">Learn more</a></li>
+				<nav>
+					<ul>
+						<li><a href="#intro">Welcome</a></li>
+						<li><a href="#one">Login</a></li>
 					</ul>
+				</nav>
 			</div>
 		</section>
 
-		<!-- One -->
-		<!-- EMAIL AND PASSWORD LOGIN-->
-		<section id="one" class="wrapper style2 spotlights">
-			<section>
-				<a href="#" class="image"><img src="images/pic01.jpg" alt="" data-position="center center" /></a>
-				<div class="content">
-					<div class="inner">
-						<p>Enter Email and Password to Login!</p>
-						<!-- USER LOGIN -->
-						<input id="txtEmail" type="email" placeholder="Email">
-						<input id="txtPassword" type="password" placeholder="Password">
-						<button id="btnLogin" class="btn btn-action">Log in</button>
-						<button id="btnSignUp" class="btn btn-secondary">Sign up</button>
-					</div>
-				</div>
-			</section>
-			<!--			<section>
-				<a href="#" class="image"><img src="images/pic02.jpg" alt="" data-position="top center" /></a>
-				<div class="content">
-					<div class="inner">
-						<h2>Feugiat consequat</h2>
-						<p>Phasellus convallis elit id ullamcorper pulvinar. Duis aliquam turpis mauris, eu ultricies
-							erat malesuada quis. Aliquam dapibus.</p>
-						<ul class="actions">
-							<li><a href="generic.html" class="button">Learn more</a></li>
-						</ul>
-					</div>
-				</div>
-			</section>
-			<section>
-				<a href="#" class="image"><img src="images/pic03.jpg" alt="" data-position="25% 25%" /></a>
-				<div class="content">
-					<div class="inner">
-						<h2>Ultricies aliquam</h2>
-						<p>Phasellus convallis elit id ullamcorper pulvinar. Duis aliquam turpis mauris, eu ultricies
-							erat malesuada quis. Aliquam dapibus.</p>
-						<ul class="actions">
-							<li><a href="generic.html" class="button">Learn more</a></li>
-						</ul>
-					</div>
-				</div>
-			</section>
-		</section>
--->
+		<!-- Wrapper -->
+		<div id="wrapper">
 
-			<!-- Footer -->
-			<footer id="footer" class="wrapper style1-alt">
+			<!-- Intro -->
+			<section id="intro" class="wrapper style1 fullscreen fade-up">
 				<div class="inner">
-					<ul class="menu">
-						<li>&copy; SafelySent. All rights reserved.</li>
-					</ul>
+					<h1>SafelySent</h1>
+					<p>A Secure Web-Based Messaging App</a><br />
+						<ul class="actions">
+							<li><a href="#one" class="button scrolly">Learn more</a></li>
+						</ul>
 				</div>
-			</footer>
+			</section>
 
-			<!-- Scripts -->
+			<!-- One -->
+			<!-- EMAIL AND PASSWORD LOGIN-->
+			<section id="one" class="wrapper style2 spotlights">
+				<section>
+					<a href="#" class="image"><img src="images/pic01.jpg" alt="" data-position="center center" /></a>
+					<div class="content">
+						<div class="inner">
+							<p>Enter Email and Password to Login!</p>
+							<!-- USER LOGIN -->
+							<input id="emailField" type="email" placeholder="Email">
+							<input id="passwordField" type="password" placeholder="Password">
+							<button onclick="login()">Log in</button>
+							<button id="btnSignUp" class="btn btn-secondary">Sign up</button>
+						</div>
+					</div>
+				</section>
 
+
+				<!-- Footer -->
+				<footer id="footer" class="wrapper style1-alt">
+					<div class="inner">
+						<ul class="menu">
+							<li>&copy; SafelySent. All rights reserved.</li>
+						</ul>
+					</div>
+				</footer>
+
+		</div>
+
+		<!-------------------------------------------
+Display this page oonce login successfull
+--------------------------------------------->
+
+		<body class="is-preload">
+			<div id="loggedIn">
+				<!-- Header -->
+				<header id="header">
+					<a href="index.html" class="title">SafelySent</a>
+					<nav>
+
+						<button onclick="logout()">Logout</button>
+						<button>Profile</button>
+
+					</nav>
+				</header>
+
+				<!-- Wrapper -->
+				<div id="wrapper">
+					<!-- Main -->
+					<section id="main" class="wrapper">
+						<div class="inner">
+							<h1 class="major">Temp header</h1>
+							<p id="message">Welcome</p>
+						</div>
+					</section>
+
+				</div>
+
+				<!-- Footer -->
+				<footer id="footer" class="wrapper alt">
+					<div class="inner">
+						<ul class="menu">
+							<li>&copy; SafelySent. All rights reserved.</li>
+						</ul>
+					</div>
+				</footer>
+			</div>
 
 			<script>
 				// Your web app's Firebase configuration
@@ -135,6 +146,6 @@
 			<script src="assets/js/main.js"></script>
 
 
-</body>
+		</body>
 
 </html>
