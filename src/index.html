@@ -19,7 +19,7 @@
 
 <body>
 	<!-- MAIN HTML Log Out/LOGIN PAGE-->
-	<div id="LoggedOut">
+	<div id="loggedOut">
 		<p>Login Below</p>
 		<input id="emailField" type="email" placeholder="Email">
 		<input id="passwordField" type="password" placeholder="Password">
@@ -33,26 +33,29 @@
 	<div id="loggedIn">
 		<p id="user">Welcome!</p>
 		<button onclick="logOut()">Log Out</button>
+		<!--TODO - MANAGE ACCOUNT -->
+		<!--TODO - CONVERSATION SCREEN -->
+		<!--TODO - MANAGE CONTACTS -->
 	</div>
 
-			<!-- Firebase Config Stuffs -->
-			<script>
-				// Web app's Firebase configuration
-				var firebaseConfig = {
-					apiKey: "AIzaSyB6Yr_nCzIdstbYBo9yztKeeXFgK157Hh8",
-					authDomain: "safely-9ab2f.firebaseapp.com",
-					databaseURL: "https://safely-9ab2f.firebaseio.com",
-					projectId: "safely-9ab2f",
-					storageBucket: "safely-9ab2f.appspot.com",
-					messagingSenderId: "278756044655",
-					appId: "1:278756044655:web:6996a1319f80542828429a",
-					measurementId: "G-S0YBF4KBYT"
-				};
-				firebase.initializeApp(firebaseConfig);
-				firebase.analytics();
+	<!-- Firebase Config Stuffs -->
+	<script>
+		// Web app's Firebase configuration
+		var firebaseConfig = {
+			apiKey: "AIzaSyB6Yr_nCzIdstbYBo9yztKeeXFgK157Hh8",
+			authDomain: "safely-9ab2f.firebaseapp.com",
+			databaseURL: "https://safely-9ab2f.firebaseio.com",
+			projectId: "safely-9ab2f",
+			storageBucket: "safely-9ab2f.appspot.com",
+			messagingSenderId: "278756044655",
+			appId: "1:278756044655:web:6996a1319f80542828429a",
+			measurementId: "G-S0YBF4KBYT"
+		};
+		firebase.initializeApp(firebaseConfig);
+		firebase.analytics();
 
-			</script>
-			<script src="app.js"></script>
-		</body>
+	</script>
+	<script src="app.js"></script>
+</body>
 
 </html>
