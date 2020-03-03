@@ -25,12 +25,12 @@ firebase.auth().onAuthStateChanged(function (user) {
         //UNCOMMENT TO FORCE LOGGOUT
         //firebase.auth().signOut();
         let user = firebase.auth().currentUser;
-        
+
         //if user exists -> display welcome message
-        if(user != null){
-         document.getElementById("user").innerHTML = `welcome ${user.email}`   
+        if (user != null) {
+            document.getElementById("user").innerHTML = `welcome ${user.email}`
         }
-        
+
     } else { //if there is no user signed in
         document.getElementById("loggedOut").style.display = "initial";
         document.getElementById("loggedIn").style.display = "none";
@@ -61,17 +61,17 @@ function login() {
 //      and uses firebases authentication to sign them up
 //Err:  If an error occurs it diplays the message to the screen
 //-------------------------------------------------------------
-function signUp(){
+function signUp() {
 
     let userEmail = document.getElementById("emailField").value
     let userPassword = document.getElementById("passwordField").value
 
-    firebase.auth().createUserWithEmailAndPassword(userEmail, userPassword).catch(function(error) {
+    firebase.auth().createUserWithEmailAndPassword(userEmail, userPassword).catch(function (error) {
         // Handle Errors here.
         var errorCode = error.code;
         var errorMessage = error.message;
         window.alert(errorMessage);
-      });
+    });
 }
 
 //-------------------------------------------------------------
@@ -79,10 +79,10 @@ function signUp(){
 //Desc: Uses firebase authentication to sign out the user
 //Err:  If an error occurs --- TODO
 //-------------------------------------------------------------
-function logOut(){
-    firebase.auth().signOut().then(function() {
+function logOut() {
+    firebase.auth().signOut().then(function () {
         // Sign-out successful.
-      }).catch(function(error) {
+    }).catch(function (error) {
         // An error happened.
-      });
+    });
 }
