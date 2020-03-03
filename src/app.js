@@ -16,7 +16,7 @@
 firebase.auth().onAuthStateChanged(function (user) {
     if (user) { //if user is currently signed in
 
-        document.getElementById("notLoggedIn").style.display = "none";
+        document.getElementById("loggedOut").style.display = "none";
 
         //settimeout here and diplays intro ??
 
@@ -32,7 +32,7 @@ firebase.auth().onAuthStateChanged(function (user) {
         }
         
     } else { //if there is no user signed in
-        document.getElementById("notLoggedIn").style.display = "initial";
+        document.getElementById("loggedOut").style.display = "initial";
         document.getElementById("loggedIn").style.display = "none";
     }
 });
