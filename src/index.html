@@ -7,6 +7,7 @@
 
 <head>
 	<title>SafelySent</title>
+	<link rel="stylesheet" type="text/css" href="../assets/css/main.css">
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 	<!-- The core Firebase JS SDK is always required and must be listed first -->
@@ -18,13 +19,25 @@
 </head>
 
 <body>
+	<div class="title">
+		SafelySent Secure Messaging Application
+	</div>
 	<!-- MAIN HTML Log Out/LOGIN PAGE-->
 	<div id="loggedOut">
-		<p>Login Below</p>
-		<input id="emailField" type="email" placeholder="Email">
-		<input id="passwordField" type="password" placeholder="Password">
-		<button onclick="login()">Log in</button>
-		<button onclick="signUp()">Sign Up</button>
+		<table class="center">
+			<tr style="text-align: center; padding: 5px;" >
+				<th colspan="2">Login Here</th>
+			</tr>
+			<tr>
+				<td><input id="emailField" type="email" placeholder="Email"></td>
+				<td><input id="passwordField" type="password" placeholder="Password"></td>
+			</tr>
+			<tr align="center">
+			<td colspan="2"><button onclick="login()">Log in</button>
+			<button onclick="signUp()">Sign Up</button></td>
+			</tr>
+		</table>
+	
 	</div>
 
 	<!------------------------------->
