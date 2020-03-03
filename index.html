@@ -1,8 +1,7 @@
 <!DOCTYPE HTML>
 <!--
-	Hyperspace by HTML5 UP
-	html5up.net | @ajlkn
-	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+	index.html
+	created 3/1/2020 by Galen Shirey
 -->
 <html>
 
@@ -16,9 +15,12 @@
 	<!-- The core Firebase JS SDK is always required and must be listed first -->
 	<script src="https://www.gstatic.com/firebasejs/7.9.3/firebase-app.js"></script>
 
-	<!-- TODO: Add SDKs for Firebase products that you want to use
+
+
+	<!-- TODO: Add SDKs for Firebase products that we want to use
 			 https://firebase.google.com/docs/web/setup#available-libraries -->
 	<script src="https://www.gstatic.com/firebasejs/7.9.3/firebase-analytics.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/7.9.2/firebase-auth.js"></script>
 </head>
 
 <body class="is-preload">
@@ -57,13 +59,11 @@
 				<div class="content">
 					<div class="inner">
 						<p>Enter Email and Password to Login!</p>
-
+						<!-- USER LOGIN -->
 						<input id="txtEmail" type="email" placeholder="Email">
 						<input id="txtPassword" type="password" placeholder="Password">
 						<button id="btnLogin" class="btn btn-action">Log in</button>
 						<button id="btnSignUp" class="btn btn-secondary">Sign up</button>
-						<button id="btnLogout" class="btn btn-action hide">Log out</button>
-
 					</div>
 				</div>
 			</section>
@@ -101,11 +101,11 @@
 				<div class="inner">
 					<ul class="menu">
 						<li>&copy; SafelySent. All rights reserved.</li>
-
 					</ul>
 				</div>
 			</footer>
 
+			<!-- Scripts -->
 
 
 			<script>
@@ -125,7 +125,7 @@
 
 			</script>
 			<script src="app.js"></script>
-			<!-- Scripts -->
+
 			<script src="assets/js/jquery.min.js"></script>
 			<script src="assets/js/jquery.scrollex.min.js"></script>
 			<script src="assets/js/jquery.scrolly.min.js"></script>
