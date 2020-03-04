@@ -56,6 +56,11 @@ firebase.auth().onAuthStateChanged(function (user) {
             document.getElementById("contactList").innerHTML = contactList
         })
 
+
+
+
+
+        /**************************************************************************/
     } else { //if there is no user signed in
         document.getElementById("loggedOut").style.display = "initial";
         document.getElementById("loggedIn").style.display = "none";
@@ -195,6 +200,10 @@ function changeUsername() {
         window.alert(err)
     });
 }
+
+
+
+
 /**
  * get database:
  *      var database = firebase.database();
@@ -216,14 +225,25 @@ function addContact() {
     let username = email.split('@')
     let newContact = document.getElementById("addContact").value
 
-    //add that contact
-    firebase.database().ref('users/' + username[0] + '/contacts').update({
-        [newContact]: newContact
-    }).then(() => {
-        location.reload();
-    }).catch((err) => {
-        window.log(err)
-    });
+
+    //grab users
+    let usersRef = firebase.database().ref().once("value").then(function (snapshot) {
+        let userObj = snapshot.child('users/').val()
+        userList = Object.keys(userObj)
+        if (userList.includes(newContact)) {
+
+            //add that contact
+            firebase.database().ref('users/' + username[0] + '/contacts').update({
+                [newContact]: newContact
+            }).then(() => {
+                location.reload();
+            }).catch((err) => {
+                window.alert(err)
+            });
+        } else {
+            window.alert("User Does Not Exist")
+        }
+    })
 }
 
 function removeContact() {
@@ -231,16 +251,22 @@ function removeContact() {
     let username = firebase.auth().currentUser.email.split('@');
     let removeUser = document.getElementById("removeContact").value
 
-    console.log(removeUser)
+    let usersRef = firebase.database().ref('users/' + username[0]).once("value").then(function (snapshot) {
+        let userObj = snapshot.child('contacts/').val()
+        userList = Object.keys(userObj)
+        if (userList.includes(removeUser)) {
+            //remove that user
+            var ref = firebase.database().ref('users/' + username[0] + '/contacts/' + removeUser)
+            ref.remove().then(() => {
+                window.alert(removeUser + " has been removed")
+                location.reload();
+            }).catch(() => {
+                window.alert("? You are not friend with this person ?")
+            })
 
-    //remove that user
-    var ref = firebase.database().ref('users/' + username[0] + '/contacts/' + removeUser)
-    ref.remove().then(() => {
-        window.alert(removeUser + " has been removed")
-        location.reload();
-    }).catch(() => {
-        window.alert("? You are not friend with this person ?")
+        } else {
+            window.alert("This person is not on your friends list")
+        }
+
     })
-
-
 }
