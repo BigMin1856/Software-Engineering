@@ -5,7 +5,7 @@
 // app.js - main javascript source file
 /////////////////////////////////////////
 
-var database = firebase.database();
+
 
 //-------------------------------------------------------------
 //function: User State
@@ -25,12 +25,36 @@ firebase.auth().onAuthStateChanged(function (user) {
         //UNCOMMENT TO FORCE LOGGOUT
         //firebase.auth().signOut();
         let user = firebase.auth().currentUser;
+        let username = user.email.split('@')
 
         //if user exists -> display welcome message
         if (user != null) {
             document.getElementById("user").innerHTML = `welcome ${user.email} ${`${user.displayName == null ? ` ` : `or should i call you ${user.displayName} ;)`}`}`
             console.log(user.displayName)
         }
+
+        //set username to email
+        if (user.displayName == null) {
+            user.updateProfile({
+                displayName: username[0]
+            }).catch(function (error) {
+                window.alert(err)
+            });
+        }
+
+        //Display User Contact List
+        let ref = firebase.database().ref('users/' + username[0]).once('value').then((snapshot) => {
+            //gets contact list as an object
+            let contactObj = snapshot.child('contacts').val()
+            //markup for html
+            let contactList = "<br>"
+            for (var contactKey in contactObj) {
+                console.log(contactKey)
+                contactList += `<li>${contactKey}</li>`
+            }
+            contactList += "<br>"
+            document.getElementById("contactList").innerHTML = contactList
+        })
 
     } else { //if there is no user signed in
         document.getElementById("loggedOut").style.display = "initial";
@@ -75,7 +99,8 @@ function signUp() {
         let user = firebase.auth().currentUser;
         let userID = user.uid;
         let email = user.email;
-        startUserData(userID, email)
+        let username = email.split('@')
+        startUserData(userID, username[0], email)
 
 
     }).catch(function (error) {
@@ -177,25 +202,45 @@ function changeUsername() {
  * See Firebase Documentation for more details
  */
 
-function startUserData(userID, email) {
-    firebase.database().ref('users/' + userID).set({
+function startUserData(userID, username, email) {
+    firebase.database().ref('users/' + username).set({
+        uid: userID,
         userEmail: email,
+        contacts: null
     });
 }
 
 function addContact() {
     var currentUser = firebase.auth().currentUser;
     let email = currentUser.email;
-    let userID = currentUser.uid;
+    let username = email.split('@')
     let newContact = document.getElementById("addContact").value
 
-    firebase.database().ref('users/' + email + userID).set({
-        contacts: newContact
+    //add that contact
+    firebase.database().ref('users/' + username[0] + '/contacts').update({
+        [newContact]: newContact
     }).then(() => {
-        window.alert("success")
+        location.reload();
     }).catch((err) => {
-        window.alert(err)
-    })
+        window.log(err)
+    });
 }
 
+function removeContact() {
+    //same as above but in 2 lines
+    let username = firebase.auth().currentUser.email.split('@');
+    let removeUser = document.getElementById("removeContact").value
 
+    console.log(removeUser)
+
+    //remove that user
+    var ref = firebase.database().ref('users/' + username[0] + '/contacts/' + removeUser)
+    ref.remove().then(() => {
+        window.alert(removeUser + " has been removed")
+        location.reload();
+    }).catch(() => {
+        window.alert("? You are not friend with this person ?")
+    })
+
+
+}
