@@ -33,27 +33,18 @@ firebase.auth().onAuthStateChanged(function (user) {
             console.log(user.displayName)
         }
 
-        //set username to email
-        if (user.displayName == null) {
-            user.updateProfile({
-                displayName: username[0]
-            }).catch(function (error) {
-                window.alert(err)
-            });
-        }
-
         //Display User Contact List
-        let ref = firebase.database().ref('users/' + username[0]).once('value').then((snapshot) => {
+        let contactList = ''
+        let ref = firebase.database().ref('users/' + user.uid + '/contacts/').orderByChild('userName').on("child_added", function (snapshot) {
             //gets contact list as an object
-            let contactObj = snapshot.child('contacts').val()
+
+            let contactObj = snapshot.val().userName
+            console.log(contactObj)
             //markup for html
-            let contactList = "<br>"
-            for (var contactKey in contactObj) {
-                console.log(contactKey)
-                contactList += `<li>${contactKey}</li>`
-            }
-            contactList += "<br>"
+            //console.log(contactKey)
+            contactList += `<li>${contactObj}</li>`
             document.getElementById("contactList").innerHTML = contactList
+            console.log(contactObj)
         })
 
 
@@ -105,6 +96,14 @@ function signUp() {
         let userID = user.uid;
         let email = user.email;
         let username = email.split('@')
+
+        user.updateProfile({
+            displayName: username[0]
+        }).then(function () {
+        }).catch(function (err) {
+            window.alert(err)
+        });
+
         startUserData(userID, username[0], email)
 
 
@@ -191,6 +190,7 @@ function changeUsername() {
 
     let newUsername = document.getElementById("updateUsername").value
 
+    //Change in authentication 
     currentUser.updateProfile({
         displayName: newUsername
     }).then(function () {
@@ -199,6 +199,10 @@ function changeUsername() {
     }).catch(function (error) {
         window.alert(err)
     });
+
+    //chnage in database
+    let username = firebase.auth().currentUser.email.split('@');
+    firebase.database().ref('users/' + username[0]).set({})
 }
 
 
@@ -218,10 +222,9 @@ function changeUsername() {
 //Err:  output error message
 //-------------------------------------------------------------
 function startUserData(userID, username, email) {
-    firebase.database().ref('users/' + username).set({
-        uid: userID,
+    firebase.database().ref('users/' + userID).set({
+        userName: username,
         userEmail: email,
-        contacts: null
     });
 }
 
@@ -234,27 +237,20 @@ function startUserData(userID, username, email) {
 //-------------------------------------------------------------
 function addContact() {
     var currentUser = firebase.auth().currentUser;
-    let email = currentUser.email;
-    let username = email.split('@')
     let newContact = document.getElementById("addContact").value
-
-
     //grab users
-    let usersRef = firebase.database().ref().once("value").then(function (snapshot) {
-        let userObj = snapshot.child('users/').val()
-        userList = Object.keys(userObj)
-        if (userList.includes(newContact)) {
-
+    let usersRef = firebase.database().ref('users');
+    usersRef.orderByChild('userName').on("child_added", function (snapshot) {
+        if (snapshot.val().userName == newContact) {
             //add that contact
-            firebase.database().ref('users/' + username[0] + '/contacts').update({
-                [newContact]: newContact
+            firebase.database().ref('users/' + currentUser.uid + '/contacts/' + [snapshot.key]).update({
+                userName: newContact
             }).then(() => {
                 location.reload();
             }).catch((err) => {
                 window.alert(err)
             });
         } else {
-            window.alert("User Does Not Exist")
         }
     })
 }
@@ -269,15 +265,14 @@ function addContact() {
 //-------------------------------------------------------------
 function removeContact() {
     //same as above but in 2 lines
-    let username = firebase.auth().currentUser.email.split('@');
+    var currentUser = firebase.auth().currentUser;
     let removeUser = document.getElementById("removeContact").value
 
-    let usersRef = firebase.database().ref('users/' + username[0]).once("value").then(function (snapshot) {
-        let userObj = snapshot.child('contacts/').val()
-        userList = Object.keys(userObj)
-        if (userList.includes(removeUser)) {
+    let usersRef = firebase.database().ref('users');
+    usersRef.orderByChild('userName').on("child_added", function (snapshot) {
+        if (snapshot.val().userName == removeUser) {
             //remove that user
-            var ref = firebase.database().ref('users/' + username[0] + '/contacts/' + removeUser)
+            var ref = firebase.database().ref('users/' + currentUser.uid + '/contacts/' + [snapshot.key])
             ref.remove().then(() => {
                 window.alert(removeUser + " has been removed")
                 location.reload();
@@ -286,7 +281,6 @@ function removeContact() {
             })
 
         } else {
-            window.alert("This person is not on your friends list")
         }
 
     })
