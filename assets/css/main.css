@@ -41,7 +41,6 @@ table.center{
 .loggedIn{
     display: none;
 }
-
 /* NAV BAR */
 ul.header{
     list-style-type: none;
@@ -51,7 +50,7 @@ ul.header{
     background-color: #333;
   }
   
-  li {
+  li.header {
     float: left;
   }
   
