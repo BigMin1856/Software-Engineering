@@ -28,7 +28,7 @@ firebase.auth().onAuthStateChanged(function (user) {
 
         //if user exists -> display welcome message
         if (user != null) {
-            document.getElementById("user").innerHTML = `welcome ${user.email}`
+            document.getElementById("user").innerHTML = `welcome ${user.email} ${`${user.displayName == null ? ` ` : `or should i call you ${user.displayName} ;)`}`}`
             console.log(user.displayName)
         }
 
@@ -97,6 +97,14 @@ function logOut() {
  *  changePassword()
  *  changeUsername()
  ******************************/
+
+
+//-------------------------------------------------------------
+//Function: changeEmail
+//Desc: grabs current users details then changes email if
+//      promise is successful
+//Err:  output error message
+//-------------------------------------------------------------
 function changeEmail() {
     var currentUser = firebase.auth().currentUser;
 
@@ -111,10 +119,43 @@ function changeEmail() {
     })
 }
 
+//-------------------------------------------------------------
+//Function: changePassword
+//Desc: grabs current users details then changes password if
+//      promise is successful
+//Err:  output error message
+//-------------------------------------------------------------
 function changePassword() {
+    var currentUser = firebase.auth().currentUser;
 
+    let newPassword = document.getElementById("updatePassword").value
+
+    currentUser.updatePassword(newPassword).then(() => {
+        window.alert("Success! Your password has been updated!")
+        location.reload();
+    }).catch((err) => {
+        //error occured
+        window.alert(err)
+    })
 }
 
+//-------------------------------------------------------------
+//Function: changeUsername
+//Desc: grabs current users details then changes username if
+//      promise is successful
+//Err:  output error message
+//-------------------------------------------------------------
 function changeUsername() {
+    var currentUser = firebase.auth().currentUser;
 
+    let newUsername = document.getElementById("updateUsername").value
+
+    currentUser.updateProfile({
+        displayName: newUsername
+    }).then(function () {
+        window.alert("Success! Your username has been updated!")
+        location.reload();
+    }).catch(function (error) {
+        window.alert(err)
+    });
 }
