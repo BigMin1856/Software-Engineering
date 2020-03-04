@@ -29,6 +29,7 @@ firebase.auth().onAuthStateChanged(function (user) {
         //if user exists -> display welcome message
         if (user != null) {
             document.getElementById("user").innerHTML = `welcome ${user.email}`
+            console.log(user.displayName)
         }
 
     } else { //if there is no user signed in
@@ -85,4 +86,35 @@ function logOut() {
     }).catch(function (error) {
         // An error happened.
     });
+}
+
+
+
+/******************************
+ * Manage Account Section
+ * Current Methods:
+ *  changeEmail()
+ *  changePassword()
+ *  changeUsername()
+ ******************************/
+function changeEmail() {
+    var currentUser = firebase.auth().currentUser;
+
+    let newEmail = document.getElementById("updateEmail").value
+
+    currentUser.updateEmail(newEmail).then(() => {
+        window.alert("Success! Your new email login is: " + newEmail)
+        location.reload();
+    }).catch((err) => {
+        //error occured
+        window.alert(err)
+    })
+}
+
+function changePassword() {
+
+}
+
+function changeUsername() {
+
 }
