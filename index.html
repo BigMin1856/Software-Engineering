@@ -16,6 +16,7 @@
 			 https://firebase.google.com/docs/web/setup#available-libraries -->
 	<script src="https://www.gstatic.com/firebasejs/7.9.3/firebase-analytics.js"></script>
 	<script src="https://www.gstatic.com/firebasejs/7.9.2/firebase-auth.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/7.9.3/firebase-database.js"></script>
 </head>
 
 <body>
@@ -47,6 +48,7 @@
 		<p id="user">Welcome!</p>
 		<button onclick="logOut()">Log Out</button>
 		<ul>
+			<!--MANAGE ACCOUNT-->
 			<li>Manage Account<br>
 				<input id="updateEmail" type="email" placeholder="Update Email">
 				<button onclick="changeEmail()">Submit</button><br>
@@ -55,8 +57,15 @@
 				<input id="updateUsername" placeholder="Enter/Update Username">
 				<button onclick="changeUsername()">Submit</button><br>
 			</li>
+			<!--MANAGE CONTACTS-->
+			<li>Manage Contacts<br>
+				<input id="addContact" type="email" placeholder="Enter Friends Email">
+				<button onclick="addContact()">Add Contact</button><br>
+			</li>
+
+
+
 			<li>Conversation List</li>
-			<li>Manage Contacts</li>
 		</ul>
 		<!--TODO - MANAGE ACCOUNT -->
 

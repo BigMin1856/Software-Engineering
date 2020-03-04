@@ -5,7 +5,7 @@
 // app.js - main javascript source file
 /////////////////////////////////////////
 
-
+var database = firebase.database();
 
 //-------------------------------------------------------------
 //function: User State
@@ -60,6 +60,7 @@ function login() {
 //Function: signUp
 //Desc: Grabs users email and password from field
 //      and uses firebases authentication to sign them up
+//
 //Err:  If an error occurs it diplays the message to the screen
 //-------------------------------------------------------------
 function signUp() {
@@ -67,7 +68,17 @@ function signUp() {
     let userEmail = document.getElementById("emailField").value
     let userPassword = document.getElementById("passwordField").value
 
-    firebase.auth().createUserWithEmailAndPassword(userEmail, userPassword).catch(function (error) {
+    //Create user auth -> then add them to the database
+    firebase.auth().createUserWithEmailAndPassword(userEmail, userPassword).then(() => {
+        //START USER DATABASE
+        //current user
+        let user = firebase.auth().currentUser;
+        let userID = user.uid;
+        let email = user.email;
+        startUserData(userID, email)
+
+
+    }).catch(function (error) {
         // Handle Errors here.
         var errorCode = error.code;
         var errorMessage = error.message;
@@ -159,3 +170,32 @@ function changeUsername() {
         window.alert(err)
     });
 }
+/**
+ * get database:
+ *      var database = firebase.database();
+ * Realtime Database Section
+ * See Firebase Documentation for more details
+ */
+
+function startUserData(userID, email) {
+    firebase.database().ref('users/' + userID).set({
+        userEmail: email,
+    });
+}
+
+function addContact() {
+    var currentUser = firebase.auth().currentUser;
+    let email = currentUser.email;
+    let userID = currentUser.uid;
+    let newContact = document.getElementById("addContact").value
+
+    firebase.database().ref('users/' + email + userID).set({
+        contacts: newContact
+    }).then(() => {
+        window.alert("success")
+    }).catch((err) => {
+        window.alert(err)
+    })
+}
+
+
