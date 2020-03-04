@@ -204,13 +204,19 @@ function changeUsername() {
 
 
 
-/**
+/**************************************************
  * get database:
  *      var database = firebase.database();
  * Realtime Database Section
  * See Firebase Documentation for more details
- */
+ **************************************************/
 
+
+//-------------------------------------------------------------
+//Function: startUserData
+//Desc: Used in signUp to load user info into database
+//Err:  output error message
+//-------------------------------------------------------------
 function startUserData(userID, username, email) {
     firebase.database().ref('users/' + username).set({
         uid: userID,
@@ -219,6 +225,13 @@ function startUserData(userID, username, email) {
     });
 }
 
+
+//-------------------------------------------------------------
+//Function: addContact
+//Desc: Adds contact to user's database yes
+//      checks if user actually exists
+//Err:  output error message
+//-------------------------------------------------------------
 function addContact() {
     var currentUser = firebase.auth().currentUser;
     let email = currentUser.email;
@@ -246,6 +259,14 @@ function addContact() {
     })
 }
 
+
+
+//-------------------------------------------------------------
+//Function: removeContact
+//Desc: removes contact if that contact exists in users contact
+//      list
+//Err:  output error message
+//-------------------------------------------------------------
 function removeContact() {
     //same as above but in 2 lines
     let username = firebase.auth().currentUser.email.split('@');
