@@ -29,10 +29,23 @@ firebase.auth().onAuthStateChanged(function (user) {
         let user = firebase.auth().currentUser;
         let username = user.email.split('@')
 
+        /*
+                if (user) {
+                    initChat(user)
+                }
+                var chatRef = firebase.database().ref("chat");
+                */
 
-        if (user) {
-            initChat(user)
-        }
+
+        // Get a Firebase Database ref
+        var chatRef = firebase.database().ref("chat");
+        // Create a Firechat instance
+        var chatui = new FirechatUI(chatRef, document.getElementById("firechat-wrapper"));
+        let chat = chatui._chat;
+        // Set the Firechat user
+        chatui.setUser(user.uid, user.displayName);
+
+
 
         //if user exists -> display welcome message
         if (user != null) {
@@ -51,11 +64,7 @@ firebase.auth().onAuthStateChanged(function (user) {
             //console.log(contactKey)
             contactList += `<li>${contactObj}</li>`
             document.getElementById("contactList").innerHTML = contactList
-            console.log(contactObj)
         })
-
-
-
 
 
         /*************************************************************************/
@@ -261,11 +270,13 @@ function addContact() {
                 userName: newContact
             }).then(() => {
                 location.reload();
+                //TODO - Here is where we want to init a chat room with a user
             }).catch((err) => {
                 window.alert(err)
             });
         } else {
         }
+
     })
 }
 
@@ -307,12 +318,9 @@ function removeContact() {
 //Firebase messaging object
 function initChat(user) {
     // Get a Firebase Database ref
-    console.log(user)
     var chatRef = firebase.database().ref("chat");
-
     // Create a Firechat instance
     var chat = new FirechatUI(chatRef, document.getElementById("firechat-wrapper"));
-
     // Set the Firechat user
     chat.setUser(user.uid, user.displayName);
 }
