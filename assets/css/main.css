@@ -70,3 +70,21 @@ ul.header{
   .active{
       background-color: #4CAF50;
   }
+
+ .large-text{
+     font-size: xx-large;
+     text-align: center;
+     padding-top: 10px;
+     text-decoration: underline;
+ }
+
+ .intro{
+    text-align: center;
+    list-style-type: none;
+ }
+
+ .intro li{
+     text-align: left;
+     margin-left: 20%;
+ }
+  
