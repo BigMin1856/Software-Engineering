@@ -7,6 +7,10 @@
 //      (major.minor.update)
 /////////////////////////////////////////
 
+// Get a Firebase Database ref
+var chatRef = firebase.database().ref("chat");
+// Create a Firechat instance
+var chatui = new FirechatUI(chatRef, document.getElementById("firechat-wrapper"));
 
 //-------------------------------------------------------------
 //Desc: USER STATE METHOD
@@ -20,34 +24,20 @@ firebase.auth().onAuthStateChanged(function (user) {
 
         document.getElementById("loggedOut").style.display = "none";
 
+
         //settimeout here and diplays intro ??
 
         document.getElementById("loggedIn").style.display = "initial";
+        document.getElementById("firechat-wrapper").style.display = "intial";
 
         //UNCOMMENT TO FORCE LOGGOUT
         //firebase.auth().signOut();
         let user = firebase.auth().currentUser;
         let username = user.email.split('@')
-
-        /*
-                if (user) {
-                    initChat(user)
-                }
-                var chatRef = firebase.database().ref("chat");
-                */
-
-
-        // Get a Firebase Database ref
-        var chatRef = firebase.database().ref("chat");
-        // Create a Firechat instance
-        var chatui = new FirechatUI(chatRef, document.getElementById("firechat-wrapper"));
-        let chat = chatui._chat;
         // Set the Firechat user
         chatui.setUser(user.uid, user.displayName);
-
-
-
         //if user exists -> display welcome message
+
         if (user != null) {
             document.getElementById("user").innerHTML = `welcome ${user.email} ${`${user.displayName == null ? ` ` : `or should i call you ${user.displayName} ;)`}`}`
             console.log(user.displayName)
@@ -69,8 +59,9 @@ firebase.auth().onAuthStateChanged(function (user) {
 
         /*************************************************************************/
     } else { //if there is no user signed in
-        document.getElementById("loggedOut").style.display = "initial";
-        document.getElementById("loggedIn").style.display = "none";
+        document.getElementById("loggedOut").style.display = "initial"; //show login screen
+        document.getElementById("loggedIn").style.display = "none"; //hide logged in screen
+        document.getElementById("firechat-wrapper").style.display = "none"; //hide firechat
     }
 });
 
@@ -261,16 +252,25 @@ function startUserData(userID, username, email) {
 function addContact() {
     var currentUser = firebase.auth().currentUser;
     let newContact = document.getElementById("addContact").value
+    let chat = chatui._chat;
     //grab users
     let usersRef = firebase.database().ref('users');
     usersRef.orderByChild('userName').on("child_added", function (snapshot) {
         if (snapshot.val().userName == newContact) {
             //add that contact
-            firebase.database().ref('users/' + currentUser.uid + '/contacts/' + [snapshot.key]).update({
+
+            //TODO - Here is where we want to init a chat room with a user
+            chat.setUser(currentUser.uid, currentUser.displayName, () => {
+
+                console.log(snapshot.key)
+                chat.createRoom(newContact + currentUser.displayName, "private", (roomId) => {
+                    chat.inviteUser(snapshot.key, roomId)
+                })
+            })
+            let promise = firebase.database().ref('users/' + currentUser.uid + '/contacts/' + [snapshot.key]).update({
                 userName: newContact
-            }).then(() => {
-                location.reload();
-                //TODO - Here is where we want to init a chat room with a user
+            }).then(function () {
+                //location.reload();
             }).catch((err) => {
                 window.alert(err)
             });
@@ -291,15 +291,28 @@ function addContact() {
 function removeContact() {
     var currentUser = firebase.auth().currentUser;
     let removeUser = document.getElementById("removeContact").value
+    let chat = chatui._chat;
 
     let usersRef = firebase.database().ref('users');
     usersRef.orderByChild('userName').on("child_added", function (snapshot) {
         if (snapshot.val().userName == removeUser) {
             //remove that user
+            chat.setUser(currentUser.uid, currentUser.displayName, () => {
+
+                let roomRef = firebase.database().ref('chat/users/' + currentUser.uid + '/rooms/');
+                roomRef.orderByChild(removeUser).on("child_added", (snap) => {
+                    console.log(snap.val().rooms)
+
+                    if (snap.val().name == removeUser) {
+                        chat.leaveRoom(snap.key)
+                        console.log("room left")
+                    }
+                })
+            })
             var ref = firebase.database().ref('users/' + currentUser.uid + '/contacts/' + [snapshot.key])
             ref.remove().then(() => {
                 window.alert(removeUser + " has been removed")
-                location.reload();
+                //   location.reload();
             }).catch(() => {
                 window.alert("? You are not friend with this person ?")
             })
