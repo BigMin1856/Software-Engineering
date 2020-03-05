@@ -3,12 +3,13 @@
 // Edited By: 
 // Creation Date: 3.1.2020
 // app.js - main javascript source file
+// Version: 0.3.3
+//      (major.minor.update)
 /////////////////////////////////////////
 
 
 
 //-------------------------------------------------------------
-//function: User State
 //Desc: USER STATE METHOD
 //      If a user is currently logged in, the correct HTML will
 //      will display
@@ -290,3 +291,16 @@ function removeContact() {
 
     })
 }
+
+
+
+// Helpful Links
+//  Firebase Docs
+//      https://firebase.google.com/docs/web/setup
+//  Firebase Reference (More Detailed)
+//      https://firebase.google.com/docs/reference/js
+//  For User Status (Later Implementation)
+//      https://firebase.google.com/docs/database/web/offline-capabilities
+//  some sample code if you get REALLY stuck
+//      https://firebase.google.com/docs/samples
+//
