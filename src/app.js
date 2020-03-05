@@ -15,7 +15,7 @@
 //-------------------------------------------------------------
 
 firebase.auth().onAuthStateChanged(function (user) {
-   
+
     if (user) { //if user is currently signed in
 
         document.getElementById("loggedOut").style.display = "none";
@@ -29,7 +29,11 @@ firebase.auth().onAuthStateChanged(function (user) {
         let user = firebase.auth().currentUser;
         let username = user.email.split('@')
 
-        
+
+        if (user) {
+            initChat(user)
+        }
+
         //if user exists -> display welcome message
         if (user != null) {
             document.getElementById("user").innerHTML = `welcome ${user.email} ${`${user.displayName == null ? ` ` : `or should i call you ${user.displayName} ;)`}`}`
@@ -300,17 +304,18 @@ function removeContact() {
 //Desc: Method for creating chat rooms
 //Err:  Unknown
 //-------------------------------------------------------------
-    //Firebase messaging object
-    function initChat(user) {
-        // Get a Firebase Database ref
-        var chatRef = firebase.database().ref("chat");
+//Firebase messaging object
+function initChat(user) {
+    // Get a Firebase Database ref
+    console.log(user)
+    var chatRef = firebase.database().ref("chat");
 
-        // Create a Firechat instance
-        var chat = new FirechatUI(chatRef, document.getElementById("firechat-wrapper"));
+    // Create a Firechat instance
+    var chat = new FirechatUI(chatRef, document.getElementById("firechat-wrapper"));
 
-        // Set the Firechat user
-        chat.setUser(user.uid, user.displayName);
-      }
+    // Set the Firechat user
+    chat.setUser(user.uid, user.displayName);
+}
 
 // Helpful Links
 //  Firebase Docs
