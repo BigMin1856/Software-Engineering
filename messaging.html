@@ -1,0 +1,73 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset='utf-8' />
+    <script src="https://www.gstatic.com/firebasejs/7.9.3/firebase-app.js"></script>
+    <!-- TODO: Add SDKs for Firebase products that we want to use
+			 https://firebase.google.com/docs/web/setup#available-libraries -->
+    <script src="https://www.gstatic.com/firebasejs/7.9.3/firebase-analytics.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.9.2/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.9.3/firebase-database.js"></script>
+    <!-- jQuery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/3.3.0/firebase.js"></script>
+
+    <!-- Firechat -->
+    <link rel="stylesheet" href="https://cdn.firebase.com/libs/firechat/3.0.1/firechat.min.css" />
+    <script src="https://cdn.firebase.com/libs/firechat/3.0.1/firechat.min.js"></script>
+  </head>
+  <body>
+    <script>
+        // Web app's Firebase configuration
+        var firebaseConfig = {
+            apiKey: "AIzaSyB6Yr_nCzIdstbYBo9yztKeeXFgK157Hh8",
+            authDomain: "safely-9ab2f.firebaseapp.com",
+            databaseURL: "https://safely-9ab2f.firebaseio.com",
+            projectId: "safely-9ab2f",
+            storageBucket: "safely-9ab2f.appspot.com",
+            messagingSenderId: "278756044655",
+            appId: "1:278756044655:web:6996a1319f80542828429a",
+            measurementId: "G-S0YBF4KBYT"
+        };
+        firebase.initializeApp(firebaseConfig);
+        //firebase.analytics();
+
+    </script>  
+    <script>
+      function login() {
+        // Log the user in via Twitter
+        var provider = new firebase.auth.TwitterAuthProvider();
+        firebase.auth().signInWithPopup(provider).catch(function(error) {
+          console.log("Error authenticating user:", error);
+        });
+      }
+
+      firebase.auth().onAuthStateChanged(function(user) {
+        // Once authenticated, instantiate Firechat with the logged in user
+        if (user) {
+          initChat(user);
+        }
+      });
+
+      function initChat(user) {
+        // Get a Firebase Database ref
+        var chatRef = firebase.database().ref("chat");
+
+        // Create a Firechat instance
+        var chat = new FirechatUI(chatRef, document.getElementById("firechat-wrapper"));
+
+        // Set the Firechat user
+        chat.setUser(user.uid, user.displayName);
+      }
+    </script>
+
+    <div id="firechat-wrapper">
+      <button onclick="login('twitter');">Login with Twitter</button>
+    </div>
+
+    <!-- Firebase Config Stuffs -->
+    
+  </body>
+</html>
