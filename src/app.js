@@ -157,6 +157,10 @@ function changeEmail() {
         //error occured
         window.alert(err)
     })
+
+
+    //chnage in database
+    firebase.database().ref('users/' + currentUser.uid).update({ userEmail: newEmail })
 }
 
 //-------------------------------------------------------------
@@ -200,9 +204,11 @@ function changeUsername() {
         window.alert(err)
     });
 
+
+
     //chnage in database
-    let username = firebase.auth().currentUser.email.split('@');
-    firebase.database().ref('users/' + username[0]).set({})
+    firebase.database().ref('users/' + currentUser.uid).update({ userName: newUsername })
+
 }
 
 
@@ -264,7 +270,6 @@ function addContact() {
 //Err:  output error message
 //-------------------------------------------------------------
 function removeContact() {
-    //same as above but in 2 lines
     var currentUser = firebase.auth().currentUser;
     let removeUser = document.getElementById("removeContact").value
 
