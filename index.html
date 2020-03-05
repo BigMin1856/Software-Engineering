@@ -9,11 +9,33 @@
 	<title>SafelySent</title>
 	<link rel="stylesheet" type="text/css" href="assets/css/main.css">
 	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+	<!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/7.9.3/firebase-app.js"></script>
+    <!-- TODO: Add SDKs for Firebase products that we want to use
+		https://firebase.google.com/docs/web/setup#available-libraries -->
+    <script src="https://www.gstatic.com/firebasejs/7.9.3/firebase-analytics.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.9.2/firebase-auth.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/7.9.3/firebase-database.js"></script>
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 </head>
 
-<body>
+<body> 
+	<script>
+		// Web app's Firebase configuration
+		var firebaseConfig = {
+			apiKey: "AIzaSyB6Yr_nCzIdstbYBo9yztKeeXFgK157Hh8",
+			authDomain: "safely-9ab2f.firebaseapp.com",
+			databaseURL: "https://safely-9ab2f.firebaseio.com",
+			projectId: "safely-9ab2f",
+			storageBucket: "safely-9ab2f.appspot.com",
+			messagingSenderId: "278756044655",
+			appId: "1:278756044655:web:6996a1319f80542828429a",
+			measurementId: "G-S0YBF4KBYT"
+		};
+		firebase.initializeApp(firebaseConfig);
+		firebase.analytics();
+	</script>
 	<div class="title">
 		SafelySent Secure Messaging Application
 	</div>

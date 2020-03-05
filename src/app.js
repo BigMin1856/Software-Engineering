@@ -8,13 +8,14 @@
 /////////////////////////////////////////
 
 
-
 //-------------------------------------------------------------
 //Desc: USER STATE METHOD
 //      If a user is currently logged in, the correct HTML will
 //      will display
 //-------------------------------------------------------------
+
 firebase.auth().onAuthStateChanged(function (user) {
+   
     if (user) { //if user is currently signed in
 
         document.getElementById("loggedOut").style.display = "none";
@@ -28,6 +29,7 @@ firebase.auth().onAuthStateChanged(function (user) {
         let user = firebase.auth().currentUser;
         let username = user.email.split('@')
 
+        
         //if user exists -> display welcome message
         if (user != null) {
             document.getElementById("user").innerHTML = `welcome ${user.email} ${`${user.displayName == null ? ` ` : `or should i call you ${user.displayName} ;)`}`}`
@@ -52,7 +54,7 @@ firebase.auth().onAuthStateChanged(function (user) {
 
 
 
-        /**************************************************************************/
+        /*************************************************************************/
     } else { //if there is no user signed in
         document.getElementById("loggedOut").style.display = "initial";
         document.getElementById("loggedIn").style.display = "none";
@@ -124,6 +126,7 @@ function signUp() {
 function logOut() {
     firebase.auth().signOut().then(function () {
         // Sign-out successful.
+        location.replace("../index.html");
     }).catch(function (error) {
         // An error happened.
     });
@@ -292,7 +295,22 @@ function removeContact() {
     })
 }
 
+//-------------------------------------------------------------
+//Function: initChat(user)
+//Desc: Method for creating chat rooms
+//Err:  Unknown
+//-------------------------------------------------------------
+    //Firebase messaging object
+    function initChat(user) {
+        // Get a Firebase Database ref
+        var chatRef = firebase.database().ref("chat");
 
+        // Create a Firechat instance
+        var chat = new FirechatUI(chatRef, document.getElementById("firechat-wrapper"));
+
+        // Set the Firechat user
+        chat.setUser(user.uid, user.displayName);
+      }
 
 // Helpful Links
 //  Firebase Docs

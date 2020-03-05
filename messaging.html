@@ -17,7 +17,8 @@
     <!-- Firechat -->
     <link rel="stylesheet" href="https://cdn.firebase.com/libs/firechat/3.0.1/firechat.min.css" />
     <script src="https://cdn.firebase.com/libs/firechat/3.0.1/firechat.min.js"></script>
-  </head>
+    <script src="src/app.js"></script>
+</head>
   <body>
     <script>
         // Web app's Firebase configuration
@@ -33,38 +34,42 @@
         };
         firebase.initializeApp(firebaseConfig);
         //firebase.analytics();
-
-    </script>  
-    <script>
-      function login() {
-        // Log the user in via Twitter
-        var provider = new firebase.auth.TwitterAuthProvider();
-        firebase.auth().signInWithPopup(provider).catch(function(error) {
-          console.log("Error authenticating user:", error);
-        });
-      }
-
-      firebase.auth().onAuthStateChanged(function(user) {
-        // Once authenticated, instantiate Firechat with the logged in user
-        if (user) {
-          initChat(user);
-        }
-      });
-
-      function initChat(user) {
-        // Get a Firebase Database ref
-        var chatRef = firebase.database().ref("chat");
-
-        // Create a Firechat instance
-        var chat = new FirechatUI(chatRef, document.getElementById("firechat-wrapper"));
-
-        // Set the Firechat user
-        chat.setUser(user.uid, user.displayName);
-      }
     </script>
+    <!------------------------------------------------>
+    <!----------IF LOGIN SUCCESSFUL GO HERE----------->
+    <!------------------------------------------------>
+    <div id="loggedIn">
+        <p id="user">Welcome!</p>
+        <button onclick="logOut()">Log Out</button>
+        <ul>
+            <!--MANAGE ACCOUNT-->
+            <li>Manage Account<br>
+                <input id="updateEmail" type="email" placeholder="Update Email">
+                <button onclick="changeEmail()">Submit</button><br>
+                <input id="updatePassword" type="password" placeholder="Update Password">
+                <button onclick="changePassword()">Submit</button><br>
+                <input id="updateUsername" placeholder="Enter/Update Username">
+                <button onclick="changeUsername()">Submit</button><br>
+            </li>
+            <!--MANAGE CONTACTS-->
+            <li>Manage Contacts<br>
+                <input id="addContact" placeholder="Enter Friends Username">
+                <button onclick="addContact()">Add Contact</button><br>
+                <div id="contactList">Contact List</div>
+                <input id="removeContact" placeholder="Enter Username to Remove">
+                <button onclick="removeContact()">Remove Contact</button><br>
+            </li>
 
-    <div id="firechat-wrapper">
-      <button onclick="login('twitter');">Login with Twitter</button>
+
+
+            <li>Conversation List</li>
+            <li><button onclick="initChat()">New Conversation</button></li>
+        </ul>
+        <!--TODO - CONVERSATION SCREEN -->
+
+    </div>
+    <div class="firechat-wrapper">
+        
     </div>
 
     <!-- Firebase Config Stuffs -->
