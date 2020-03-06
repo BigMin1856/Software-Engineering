@@ -38,11 +38,10 @@ firebase.auth().onAuthStateChanged(function (user) {
         // Set the Firechat user
         chatui.setUser(user.uid, user.displayName);
 
-        //if user exists -> display welcome message
-        if (user != null) {
-            document.getElementById("user").innerHTML = `welcome ${user.email} ${`${user.displayName == null ? ` ` : `or should i call you ${user.displayName} ;)`}`}`
-            console.log(user.displayName)
-        }
+        //Welcome Message (temp)
+        document.getElementById("user").innerHTML = `welcome ${user.email} ${`${user.displayName == null ? ` ` : `or should i call you ${user.displayName} ;)`}`}`
+        console.log(user.displayName)
+
 
         //Display User Contact List
         let contactList = ''
@@ -51,7 +50,6 @@ firebase.auth().onAuthStateChanged(function (user) {
             let contactObj = snapshot.val().userName
             console.log(contactObj)
             //markup for html
-            //console.log(contactKey)
             contactList += `<li>${contactObj}</li>`
             document.getElementById("contactList").innerHTML = contactList
         })
@@ -260,7 +258,7 @@ function addContact() {
             let promise = firebase.database().ref('users/' + currentUser.uid + '/contacts/' + [snapshot.key]).update({
                 userName: newContact
             }).then(function () {
-                location.reload();
+                //location.reload(); this breaks chat invite
             }).catch((err) => {
                 window.alert(err)
             });
@@ -291,7 +289,8 @@ function removeContact() {
 
                 let roomRef = firebase.database().ref('chat/users/' + currentUser.uid + '/rooms/');
                 roomRef.orderByChild(removeUser).on("child_added", (snap) => {
-                    console.log(snap.val().rooms)
+                    console.log(snap.val().name)
+                    removeUser += ` and ${currentUser.displayName}`
 
                     if (snap.val().name == removeUser) {
                         chat.leaveRoom(snap.key)
@@ -302,7 +301,7 @@ function removeContact() {
             let ref = firebase.database().ref('users/' + currentUser.uid + '/contacts/' + [snapshot.key])
             ref.remove().then(() => {
                 window.alert(removeUser + " has been removed")
-                location.reload();
+                //location.reload();
             }).catch(() => {
                 window.alert("? You are not friend with this person ?")
             })
