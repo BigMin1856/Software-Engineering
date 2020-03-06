@@ -263,14 +263,14 @@ function addContact() {
             chat.setUser(currentUser.uid, currentUser.displayName, () => {
 
                 console.log(snapshot.key)
-                chat.createRoom(newContact + currentUser.displayName, "private", (roomId) => {
+                chat.createRoom(newContact + ' and ' + currentUser.displayName, "private", (roomId) => {
                     chat.inviteUser(snapshot.key, roomId)
                 })
             })
             let promise = firebase.database().ref('users/' + currentUser.uid + '/contacts/' + [snapshot.key]).update({
                 userName: newContact
             }).then(function () {
-                //location.reload();
+                location.reload();
             }).catch((err) => {
                 window.alert(err)
             });
@@ -312,7 +312,7 @@ function removeContact() {
             var ref = firebase.database().ref('users/' + currentUser.uid + '/contacts/' + [snapshot.key])
             ref.remove().then(() => {
                 window.alert(removeUser + " has been removed")
-                //   location.reload();
+                location.reload();
             }).catch(() => {
                 window.alert("? You are not friend with this person ?")
             })
