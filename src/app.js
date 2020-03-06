@@ -3,7 +3,7 @@
 // Edited By: 
 // Creation Date: 3.1.2020
 // app.js - main javascript source file
-// Version: 0.3.3
+// Version: 0.4.5
 //      (major.minor.update)
 /////////////////////////////////////////
 
