@@ -8,9 +8,10 @@
 /////////////////////////////////////////
 
 // Get a Firebase Database ref
-var chatRef = firebase.database().ref("chat");
+let chatRef = firebase.database().ref("chat");
 // Create a Firechat instance
-var chatui = new FirechatUI(chatRef, document.getElementById("firechat-wrapper"));
+// handles sending and receiving messages
+let chatui = new FirechatUI(chatRef, document.getElementById("firechat-wrapper"));
 
 //-------------------------------------------------------------
 //Desc: USER STATE METHOD
@@ -36,8 +37,8 @@ firebase.auth().onAuthStateChanged(function (user) {
         let username = user.email.split('@')
         // Set the Firechat user
         chatui.setUser(user.uid, user.displayName);
-        //if user exists -> display welcome message
 
+        //if user exists -> display welcome message
         if (user != null) {
             document.getElementById("user").innerHTML = `welcome ${user.email} ${`${user.displayName == null ? ` ` : `or should i call you ${user.displayName} ;)`}`}`
             console.log(user.displayName)
@@ -46,8 +47,7 @@ firebase.auth().onAuthStateChanged(function (user) {
         //Display User Contact List
         let contactList = ''
         let ref = firebase.database().ref('users/' + user.uid + '/contacts/').orderByChild('userName').on("child_added", function (snapshot) {
-            //gets contact list as an object
-
+            //gets contact list as str
             let contactObj = snapshot.val().userName
             console.log(contactObj)
             //markup for html
@@ -76,8 +76,8 @@ function login() {
     let userPassword = document.getElementById("passwordField").value
     firebase.auth().signInWithEmailAndPassword(userEmail, userPassword).catch(function (error) {
         // Handle Errors here.
-        var errorCode = error.code;
-        var errorMessage = error.message;
+        let errorCode = error.code;
+        let errorMessage = error.message;
         console.log(errorMessage)
         window.alert(errorMessage)
     });
@@ -116,8 +116,8 @@ function signUp() {
 
     }).catch(function (error) {
         // Handle Errors here.
-        var errorCode = error.code;
-        var errorMessage = error.message;
+        let errorCode = error.code;
+        let errorMessage = error.message;
         window.alert(errorMessage);
     });
 }
@@ -146,7 +146,6 @@ function logOut() {
  *  changeUsername()
  ******************************/
 
-
 //-------------------------------------------------------------
 //Function: changeEmail
 //Desc: grabs current users details then changes email if
@@ -154,15 +153,13 @@ function logOut() {
 //Err:  output error message
 //-------------------------------------------------------------
 function changeEmail() {
-    var currentUser = firebase.auth().currentUser;
-
+    let currentUser = firebase.auth().currentUser;
     let newEmail = document.getElementById("updateEmail").value
 
     currentUser.updateEmail(newEmail).then(() => {
         window.alert("Success! Your new email login is: " + newEmail)
         location.reload();
     }).catch((err) => {
-        //error occured
         window.alert(err)
     })
 
@@ -178,15 +175,13 @@ function changeEmail() {
 //Err:  output error message
 //-------------------------------------------------------------
 function changePassword() {
-    var currentUser = firebase.auth().currentUser;
-
+    let currentUser = firebase.auth().currentUser;
     let newPassword = document.getElementById("updatePassword").value
 
     currentUser.updatePassword(newPassword).then(() => {
         window.alert("Success! Your password has been updated!")
         location.reload();
     }).catch((err) => {
-        //error occured
         window.alert(err)
     })
 }
@@ -198,7 +193,7 @@ function changePassword() {
 //Err:  output error message
 //-------------------------------------------------------------
 function changeUsername() {
-    var currentUser = firebase.auth().currentUser;
+    let currentUser = firebase.auth().currentUser;
 
     let newUsername = document.getElementById("updateUsername").value
 
@@ -212,19 +207,14 @@ function changeUsername() {
         window.alert(err)
     });
 
-
-
     //chnage in database
     firebase.database().ref('users/' + currentUser.uid).update({ userName: newUsername })
 
 }
 
-
-
-
 /**************************************************
  * get database:
- *      var database = firebase.database();
+ *      let database = firebase.database();
  * Realtime Database Section
  * See Firebase Documentation for more details
  **************************************************/
@@ -250,7 +240,7 @@ function startUserData(userID, username, email) {
 //Err:  output error message
 //-------------------------------------------------------------
 function addContact() {
-    var currentUser = firebase.auth().currentUser;
+    let currentUser = firebase.auth().currentUser;
     let newContact = document.getElementById("addContact").value
     let chat = chatui._chat;
     //grab users
@@ -289,7 +279,7 @@ function addContact() {
 //Err:  output error message
 //-------------------------------------------------------------
 function removeContact() {
-    var currentUser = firebase.auth().currentUser;
+    let currentUser = firebase.auth().currentUser;
     let removeUser = document.getElementById("removeContact").value
     let chat = chatui._chat;
 
@@ -309,7 +299,7 @@ function removeContact() {
                     }
                 })
             })
-            var ref = firebase.database().ref('users/' + currentUser.uid + '/contacts/' + [snapshot.key])
+            let ref = firebase.database().ref('users/' + currentUser.uid + '/contacts/' + [snapshot.key])
             ref.remove().then(() => {
                 window.alert(removeUser + " has been removed")
                 location.reload();
@@ -331,9 +321,9 @@ function removeContact() {
 //Firebase messaging object
 function initChat(user) {
     // Get a Firebase Database ref
-    var chatRef = firebase.database().ref("chat");
+    let chatRef = firebase.database().ref("chat");
     // Create a Firechat instance
-    var chat = new FirechatUI(chatRef, document.getElementById("firechat-wrapper"));
+    let chat = new FirechatUI(chatRef, document.getElementById("firechat-wrapper"));
     // Set the Firechat user
     chat.setUser(user.uid, user.displayName);
 }
