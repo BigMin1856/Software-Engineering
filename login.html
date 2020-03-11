@@ -68,16 +68,18 @@
 
     <!-- MAIN HTML Log Out/LOGIN PAGE-->
     <div id="loggedOut">
-        <table class="center">
+        <img class="logo-animation" src="/assets/images/logoSequence/PNGSeq_00000.png" alt="alt" />
+        <table class="table1">
             <tr style="text-align: center; padding: 5px;">
-                <th colspan="2">Login Here</th>
+                <th colspan="2" class="loginTableHeader">Login Here</th>
             </tr>
-            <tr class="fields">
-                <td><input id="emailField" type="email" placeholder="Email"></td>
-                <td><input id="passwordField" type="password" placeholder="Password"></td>
+            <tr>
+                <td><input id="emailField" type="email" placeholder="Email" class="email_field"></td>
             </tr>
-            <tr align=center>
-                <td colspan="2"><button onclick="login()">Log in</button>
+            <tr>
+                <td><input id="passwordField" type="password" placeholder="Password" class="password_field"></td>
+            <tr>
+                <td class="lsbuttons" colspan="2"><button onclick="login()">Log in</button>
                     <button onclick="signUp()">Sign Up</button></td>
             </tr>
         </table>
