@@ -16,6 +16,7 @@
     <!-- Firechat -->
     <link rel="stylesheet" href="https://cdn.firebase.com/libs/firechat/3.0.1/firechat.min.css" />
     <script src="https://cdn.firebase.com/libs/firechat/3.0.1/firechat.min.js"></script>
+    <script src="https://kit.fontawesome.com/4005d7784d.js" crossorigin="anonymous"></script>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 
@@ -38,28 +39,48 @@
         firebase.analytics();
     </script>
     <!--Header-->
+
+    <!--Nav Bar-->
+    <nav class="navbar">
+        <ul class="nav">
+            <li class="nav-item">
+                <a href="index.html" class="nav-link">
+                    <i class="fas fa-home fa-3x"></i>
+                    <span class="link-text">Home</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="index.html" class="nav-link">
+                    <i class="fas fa-info-circle fa-3x"></i>
+                    <span class="link-text">More Info</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="login.html" class="nav-link">
+                    <i class="fas fa-sign-in-alt fa-3x"></i>
+                    <span class="link-text">Login</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
     <div class="title">
         SafelySent Secure Messaging Application
     </div>
-    <!--Nav Bar-->
-    <ul class="header">
-        <li class="header"><a href="index.html">Home</a></li>
-        <li class="header"><a href="">Test</a></li>
-        <li class="active header" style="float: right;"><a href="login.html">Login</a></li>
-    </ul>
 
     <!-- MAIN HTML Log Out/LOGIN PAGE-->
     <div id="loggedOut">
-        <table class="center">
+        <img class="logo-animation" src="/assets/images/logoSequence/PNGSeq_00000.png" alt="alt" />
+        <table class="table1">
             <tr style="text-align: center; padding: 5px;">
-                <th colspan="2">Login Here</th>
+                <th colspan="2" class="loginTableHeader">Login Here</th>
             </tr>
             <tr>
-                <td><input id="emailField" type="email" placeholder="Email"></td>
-                <td><input id="passwordField" type="password" placeholder="Password"></td>
+                <td><input id="emailField" type="email" placeholder="Email" class="email_field"></td>
             </tr>
-            <tr align=center>
-                <td colspan="2"><button onclick="login()">Log in</button>
+            <tr>
+                <td><input id="passwordField" type="password" placeholder="Password" class="password_field"></td>
+            <tr>
+                <td class="lsbuttons" colspan="2"><button onclick="login()">Log in</button>
                     <button onclick="signUp()">Sign Up</button></td>
             </tr>
         </table>
