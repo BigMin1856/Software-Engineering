@@ -22,14 +22,10 @@ let chatui = new FirechatUI(chatRef, document.getElementById("firechat-wrapper")
 firebase.auth().onAuthStateChanged(function (user) {
 
     if (user) { //if user is currently signed in
-
-        document.getElementById("loggedOut").style.display = "none";
-
-
-        //settimeout here and diplays intro ??
-
-        document.getElementById("loggedIn").style.display = "initial";
-        document.getElementById("firechat-wrapper").style.display = "intial";
+        // document.getElementById("loggedOut").style.display = "none";
+        // //settimeout here and diplays intro ??
+        // document.getElementById("loggedIn").style.display = "initial";
+        // document.getElementById("firechat-wrapper").style.display = "intial";
 
         //UNCOMMENT TO FORCE LOGGOUT
         //firebase.auth().signOut();
@@ -40,8 +36,7 @@ firebase.auth().onAuthStateChanged(function (user) {
 
         //Welcome Message (temp)
         document.getElementById("user").innerHTML = `welcome ${user.email} ${`${user.displayName == null ? ` ` : `or should i call you ${user.displayName} ;)`}`}`
-        console.log(user.displayName)
-
+        console.log(user.displayName);
 
         //Display User Contact List
         let contactList = ''
@@ -53,13 +48,14 @@ firebase.auth().onAuthStateChanged(function (user) {
             contactList += `<li>${contactObj}</li>`
             document.getElementById("contactList").innerHTML = contactList
         })
-
-
-        /*************************************************************************/
-    } else { //if there is no user signed in
-        document.getElementById("loggedOut").style.display = "initial"; //show login screen
-        document.getElementById("loggedIn").style.display = "none"; //hide logged in screen
-        document.getElementById("firechat-wrapper").style.display = "none"; //hide firechat
+    } // end if
+    
+    else { //if there is no user signed in
+        // redirect to login screen
+        window.location.href = "http://127.0.0.1:5500/login2.html";
+        // document.getElementById("loggedOut").style.display = "initial"; //show login screen
+        // document.getElementById("loggedIn").style.display = "none"; //hide logged in screen
+        // document.getElementById("firechat-wrapper").style.display = "none"; //hide firechat
     }
 });
 

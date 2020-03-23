@@ -88,3 +88,7 @@ ul.header{
      margin-left: 20%;
  }
   
+ /* changes text in button class to white */
+ .like_button_container{
+     color: white;
+ }

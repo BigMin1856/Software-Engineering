@@ -8,6 +8,7 @@
 <head>
 	<title>SafelySent</title>
 	<link rel="stylesheet" type="text/css" href="assets/css/main.css">
+	<!-- contains some fonts -->
 	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 	<!-- The core Firebase JS SDK is always required and must be listed first -->
     <script src="https://www.gstatic.com/firebasejs/7.9.3/firebase-app.js"></script>
@@ -17,6 +18,8 @@
     <script src="https://www.gstatic.com/firebasejs/7.9.2/firebase-auth.js"></script>
 	<script src="https://www.gstatic.com/firebasejs/7.9.3/firebase-database.js"></script>
 	<meta charset="utf-8" />
+	<!-- Include JSX -->
+	<script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 </head>
 
@@ -57,6 +60,26 @@
 		</ul>
 	</div>
 
+	<!-- react test -->
+	<p>
+	  Number 3 <a href="login_grid.html">OTHER PAGE</a>
+	  <div class="like_button_container" data-commentid="3"></div>
+	</p>
+	<p>
+	  Number 2
+	  <div class="like_button_container" data-commentid="2"></div>
+	</p>
+	<p>
+	  Number 1
+	  <div class="like_button_container" data-commentid="1"></div>
+	</p>
+	<!-- Load React. -->
+  	<!-- Note: when deploying, replace "development.js" with "production.min.js". -->
+  	<script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
+  	<script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
+
+  	<!-- Load our React component. -->
+  	<script src="like_button.js" type="text/babel"></script>
 
 </body>
 
