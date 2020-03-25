@@ -10,12 +10,11 @@
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-render_log_in_screen();
-// Get a Firebase Database ref
-let chatRef = firebase.database().ref("chat");
-// Create a Firechat instance
-// handles sending and receiving messages
-let chatui = new FirechatUI(chatRef, document.getElementById("firechat-wrapper"));
+// // Get a Firebase Database ref
+// let chatRef = firebase.database().ref("chat");
+// // Create a Firechat instance
+// // handles sending and receiving messages
+// let chatui = new FirechatUI(chatRef, document.getElementById("firechat_wrapper"));
 
 //-------------------------------------------------------------
 //Desc: USER STATE METHOD
@@ -26,38 +25,39 @@ let chatui = new FirechatUI(chatRef, document.getElementById("firechat-wrapper")
 firebase.auth().onAuthStateChanged(function (user) {
 
     // if not logged in, then show log in screen
-    if (!user) { 
+    if (user) { 
         //UNCOMMENT TO FORCE LOGGOUT
+        console.log("signed in");
+        renderLogInScreen();
+        renderApplication();
+        initChat(user);
         //firebase.auth().signOut();
-        let user = firebase.auth().currentUser;
-        let username = user.email.split('@')
-        // Set the Firechat user
-        chatui.setUser(user.uid, user.displayName);
+        // let user = firebase.auth().currentUser;
+        // let username = user.email.split('@')
+        // // Set the Firechat user
+        // chatui.setUser(user.uid, user.displayName);
 
-        //Welcome Message (temp)
-        document.getElementById("user").innerHTML = `welcome ${user.email} ${`${user.displayName == null ? ` ` : `or should i call you ${user.displayName} ;)`}`}`
-        console.log(user.displayName);
+        // //Welcome Message (temp)
+        // document.getElementById("user").innerHTML = `welcome ${user.email} ${`${user.displayName == null ? ` ` : `or should i call you ${user.displayName} ;)`}`}`
+        // console.log(user.displayName);
 
-        //Display User Contact List
-        let contactList = ''
-        let ref = firebase.database().ref('users/' + user.uid + '/contacts/').orderByChild('userName').on("child_added", function (snapshot) {
-            //gets contact list as str
-            let contactObj = snapshot.val().userName
-            console.log(contactObj)
-            //markup for html
-            contactList += `<li>${contactObj}</li>`
-            document.getElementById("contactList").innerHTML = contactList
-        })
+        // //Display User Contact List
+        // let contactList = ''
+        // let ref = firebase.database().ref('users/' + user.uid + '/contacts/').orderByChild('userName').on("child_added", function (snapshot) {
+        //     //gets contact list as str
+        //     let contactObj = snapshot.val().userName
+        //     console.log(contactObj)
+        //     //markup for html
+        //     contactList += `<li>${contactObj}</li>`
+        //     document.getElementById("contactList").innerHTML = contactList
+        // })
+
     } // end ifs
     
     else { //if there is no user signed in
         // redirect to login screen
-        console.log("made it");
-        window.location.href = "http://127.0.0.1:5500/login2.html";
-        onsole.log("other");
-        // document.getElementById("loggedOut").style.display = "initial"; //show login screen
-        // document.getElementById("loggedIn").style.display = "none"; //hide logged in screen
-        // document.getElementById("firechat-wrapper").style.display = "none"; //hide firechat
+        renderLogInScreen();
+        console.log("signed out");
     }
 });
 // end MAIN !SECTION
@@ -73,7 +73,7 @@ firebase.auth().onAuthStateChanged(function (user) {
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /*-------------------------------------------------------------
-// Function: render_log_in_screen
+// Function: renderLogInScreen
 // Desc: adds elements to the doc for the login screen
 // Format: right and left empty; main contents below
 //   <div id="main_login_contents" class="main_login_contents">
@@ -109,7 +109,7 @@ firebase.auth().onAuthStateChanged(function (user) {
 //       </div>
 //   </div>
 -------------------------------------------------------------*/
-function render_log_in_screen() {
+function renderLogInScreen() {
     //---MAIN LOGIN SECTION---//
     // clear main application stuff
     removeElementById('leftside');
@@ -164,7 +164,10 @@ function render_log_in_screen() {
     var loginButtonDiv = createElementByClassId('div', 'login_button_div', "login_button_div");
     var loginButton = createElementByClassId('div', 'button_for_login_submit', "button_for_login_submit");
     loginButton.appendChild(document.createTextNode("LOGIN"));
-    loginButton.onclick = function() { login() };
+    loginButton.onclick = function() { 
+        login();
+        renderApplication();
+         };
     // add button to div
     loginButtonDiv.appendChild(loginButton);
 
@@ -214,7 +217,42 @@ function render_log_in_screen() {
     document.getElementById("login_div").appendChild(loginButtonDiv);
     document.getElementById("main_login_contents").appendChild(haveAccountDiv);
     document.getElementById("center_container").appendChild(footerLinksDiv);
-}//end render_log_in_screen()
+}//end renderLogInScreen()
+
+
+/*-------------------------------------------------------------
+// Function: renderApplication
+// Desc: remove login elements and replaces them with app
+// Parameters: N/A
+// Return:  N/A
+-------------------------------------------------------------*/
+function renderApplication() {
+    // remove login stuff and add application skeleton
+    removeElementById('center_container');
+    var left = createElementByClassId('div', 'leftside', 'leftside');
+    var main = createElementByClassId('div', 'main', 'main');
+    var right = createElementByClassId('div', 'rightside', 'rightside');
+    var container = createElementByClassId('div', 'grid_container', 'grid_container');
+    document.body.appendChild(container);
+    document.getElementById("grid_container").appendChild(left);
+    document.getElementById("grid_container").appendChild(main);
+    document.getElementById("grid_container").appendChild(right);
+
+    // add chat to main (middle)
+    var firechatWrapper = createElementByClassId('div', 'firechat_wrapper', "firechat_wrapper");
+    document.getElementById("main").appendChild(firechatWrapper);
+
+    // add logout button
+    var logoutButton = createElementByClassId('div', 'logout_button', "logout_button");
+    logoutButton.appendChild(document.createTextNode("LOGOUT"));
+    logoutButton.onclick = function() { 
+        logOut(); //reload automatic
+         };
+    document.getElementById("main").appendChild(logoutButton); 
+}
+
+
+
 
 /*-------------------------------------------------------------
 // Function: convertFromLoginToSignUp
@@ -489,9 +527,10 @@ function signUp() {
 function logOut() {
     firebase.auth().signOut().then(function () {
         // Sign-out successful.
-        location.replace("../index.html");
+        console.log("logout function");
+        location.reload();
     }).catch(function (error) {
-        // An error happened.
+        console.log('ERROR:' + error);
     });
 }
 
@@ -683,7 +722,7 @@ function initChat(user) {
     // Get a Firebase Database ref
     let chatRef = firebase.database().ref("chat");
     // Create a Firechat instance
-    let chat = new FirechatUI(chatRef, document.getElementById("firechat-wrapper"));
+    let chat = new FirechatUI(chatRef, document.getElementById("firechat_wrapper"));
     // Set the Firechat user
     chat.setUser(user.uid, user.displayName);
 }
