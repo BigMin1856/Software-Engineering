@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Safely Sent</title>
+        <!-- css for login page -->
+        <link rel="stylesheet" type="text/css" href="assets/css/application.css">
+        <!-- The core Firebase JS SDK is always required and must be listed first -->
+        <script src="https://www.gstatic.com/firebasejs/7.9.3/firebase-app.js"></script>
+        <!-- TODO: Add SDKs for Firebase products that we want to use
+                https://firebase.google.com/docs/web/setup#available-libraries -->
+        <script src="https://www.gstatic.com/firebasejs/7.9.3/firebase-analytics.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/7.9.2/firebase-auth.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/7.9.3/firebase-database.js"></script>
+        <!-- jQuery -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+        <!-- Firechat -->
+        <link rel="stylesheet" href="https://cdn.firebase.com/libs/firechat/3.0.1/firechat.min.css" />
+        <script src="https://cdn.firebase.com/libs/firechat/3.0.1/firechat.min.js"></script>
+        <!-- Include JSX (b)
+        <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script> -->
+        <!-- standard template stuff -->
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <script>
+            // Web app's Firebase configuration bc
+            var firebaseConfig = {
+                apiKey: "AIzaSyB6Yr_nCzIdstbYBo9yztKeeXFgK157Hh8",
+                authDomain: "safely-9ab2f.firebaseapp.com",
+                databaseURL: "https://safely-9ab2f.firebaseio.com",
+                projectId: "safely-9ab2f",
+                storageBucket: "safely-9ab2f.appspot.com",
+                messagingSenderId: "278756044655",
+                appId: "1:278756044655:web:6996a1319f80542828429a",
+                measurementId: "G-S0YBF4KBYT"
+            };
+            firebase.initializeApp(firebaseConfig);
+            firebase.analytics();
+        </script>
+        <div id="grid_container" class="grid_container">
+            <div id="leftside" class="leftside">
+
+            </div>
+            <div id="main" class="main">
+
+            </div>  
+            <div id="rightside" class="rightside">
+
+            </div>
+        </div>
+        <script src="src/application.js"></script>
+    </body>
+</html>
