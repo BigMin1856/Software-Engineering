@@ -1,3 +1,4 @@
+
 'use strict';
 
 
@@ -62,15 +63,29 @@ firebase.auth().onAuthStateChanged(function (user) {
 });
 // end MAIN !SECTION
 
+
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////                                                               ///////////////////////
-////////////////////////////             SECTION FIREBASE FUNCTIONS                        ///////////////////////
+////////////////////////////                     SECTION UI FUNCTIONS                      ///////////////////////
 ////////////////////////////                                                               ///////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// This section contains all the functions related to the user interface and 
+// screen changing. 
+
+// Below is a list of functions to use outside of this file:
+// (functions not included in this list are helper functions for this file)
+// renderLogInScreen() - 
+// convertFromLoginToSignUp() - 
+// renderApplication() -
+// convertScreenToAboutScreen() - 
+// convertScreenToJobsScreen() - 
+// convertScreenToHelpScreen() - 
+// convertScreenToPrivacyScreen() - 
+
 
 /*-------------------------------------------------------------
 // Function: renderLogInScreen
@@ -251,9 +266,6 @@ function renderApplication() {
     document.getElementById("main").appendChild(logoutButton); 
 }
 
-
-
-
 /*-------------------------------------------------------------
 // Function: convertFromLoginToSignUp
 // Desc: remove login elements and replaces them with sign up
@@ -261,7 +273,7 @@ function renderApplication() {
 // Parameters: N/A
 // Return:  N/A
 -------------------------------------------------------------*/
-function convertFromLoginToSignUp() {
+function convertFromLoginToSignUp() {// The
     // replace login for sign up on the button
     var buttonDiv = document.getElementById("button_for_login_submit");
     buttonDiv.removeChild(buttonDiv.childNodes[0]);
@@ -290,11 +302,14 @@ function convertFromLoginToSignUp() {
 // Return: N/A
 -------------------------------------------------------------*/
 function convertScreenToAboutScreen() {
-    console.log('called convertScreenToAboutScreen')
+    // must be coming from the login screen
+    var child = document.body.childNodes;
+    console.log(child);
     // remove previous contents of the page
     removeElementById('center_container');
     
-    // HEADER //
+    // HEADER // 
+    // TODO: make logo reload page
     // create header
     var header = createElementByClassId('div', 'header', 'header');
     // create logo
@@ -334,9 +349,43 @@ function convertScreenToAboutScreen() {
     
     // add title and content into the container
     decorationContainer.appendChild(contentContainer);
-   
+
+    // create footer links
+    //var footerHelperDiv = createElementByClassId('div', 'footer_helper_div', 'footer_helper_div');
+    var footerHelperDiv = createElementByClassId('div', 'footer_helper_div', 'footer_helper_div');
+    // container for links
+    var footerLinksDiv = createElementByClassId('div', 'footer_links_div', 'footer_links_div');
+    // div for link
+    var linkDiv = createElementByClassId('div', '', 'links');
+    // create link
+    var link = createFunctionLinkElement('ABOUT', 'More Information', convertScreenToAboutScreen);
+    // ass link to link div
+    linkDiv.appendChild(link)
+    // add link div to footer links container
+    footerLinksDiv.appendChild(linkDiv);
+    // do the same as above for the other links in the footer
+    link = createFunctionLinkElement('HELP', 'Questions', convertScreenToHelpScreen);
+    linkDiv = createElementByClassId('div', '', 'links');
+    linkDiv.appendChild(link);
+    footerLinksDiv.appendChild(linkDiv);
+    link = createFunctionLinkElement('JOBS', 'There are none', convertScreenToJobsScreen);
+    linkDiv = createElementByClassId('div', '', 'links');
+    linkDiv.appendChild(link);
+    footerLinksDiv.appendChild(linkDiv);
+    link = createFunctionLinkElement('PRIVACY', 'There is none', convertScreenToPrivacyScreen);
+    linkDiv = createElementByClassId('div', '', 'links');
+    linkDiv.appendChild(link);
+    footerLinksDiv.appendChild(linkDiv);
+    link = createLinkElement('GITHUB', 'https://github.com/BigMin1856/Software-Engineering', 'View code');
+    linkDiv = createElementByClassId('div', '', 'links');
+    linkDiv.appendChild(link);
+    footerLinksDiv.appendChild(linkDiv);
+    footerHelperDiv.appendChild(footerLinksDiv);
+
     // add everything to the body
     document.body.appendChild(decorationContainer);
+    document.body.appendChild(footerHelperDiv);
+    
 
     // // create about content
     // var contentContainer = createElementByClassId('div', 'content_container', 'content_container');
@@ -345,11 +394,6 @@ function convertScreenToAboutScreen() {
     //     'The creators of this project, Marc Minnick, Joshua Moran, and Galen Shirey,\
     //     are all CSC-355 Software Engineering II students eager to make our first large scale project'));
     // contentContainer.appendChild(content);
-
-
-    
-
-
 
 }
 
@@ -385,7 +429,20 @@ function convertScreenToHelpScreen() {
 function convertScreenToPrivacyScreen() {
     console.log('called convert to PRIVACY');
 }
+// end !SECTION UI FUNCTIONS
 
+
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////                                                               ///////////////////////
+////////////////////////////                 SECTION HELPER FUNCTIONS                      ///////////////////////
+////////////////////////////                                                               ///////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /*-------------------------------------------------------------
 // Function: createLinkElement
 // Desc: creates a link based on parameters
@@ -450,17 +507,25 @@ function removeElementById(elementId) {
     
 }
 
-// end !SECTION AUTHENTICATION SCREEN
+// end !SECTION HELPER FUNCTIONS
+
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////                                                               ///////////////////////
-////////////////////////////                 SECTION FIREBASE FUNCTIONS                    ///////////////////////
+////////////////////////////                     SECTION FIREBASE FUNCTIONS                ///////////////////////
 ////////////////////////////                                                               ///////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// This file contains functions related to firebase including
+// authentication, signing up, and data retrieval and modification
+
+// Below is a list of functions to use outside of this file:
+// (functions not included in this list are helper functions for this file)
+// TODO: list functions that are usable in appilication.js
+
 
 //-------------------------------------------------------------
 //Function: login
@@ -533,8 +598,6 @@ function logOut() {
         console.log('ERROR:' + error);
     });
 }
-
-
 
 /******************************
  * Manage Account Section
@@ -727,6 +790,32 @@ function initChat(user) {
     chat.setUser(user.uid, user.displayName);
 }
 
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////                                                               ///////////////////////
+////////////////////////////                     SECTION HELPER FUNCTIONS                  ///////////////////////
+////////////////////////////                                                               ///////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// TODO: add helper functions to this section
+
+// end !SECTION HELPER FUNCTIONS
+
+
+
+
+
+
+
+
+
+
+
 // Helpful Links
 //  Firebase Docs
 //      https://firebase.google.com/docs/web/setup
@@ -737,5 +826,3 @@ function initChat(user) {
 //  some sample code if you get REALLY stuck
 //      https://firebase.google.com/docs/samples
 //
-
-// end !SECTION FIREBASE FUNCTIONS 

@@ -3,7 +3,7 @@
     font-family: sans-serif;
 }
 /* uncomment below to view/debug divs */
-/* div { border-style: solid; border-width: 1px; }  */
+div { border-style: solid; border-width: 1px; } 
 
 /* --------------------Applies to grid layout-------------------- */
 body {
@@ -164,44 +164,57 @@ input{
 /* ------------------------- Applies to About Screen ------------------------- */
 /* --------------------------------------------------------------------------- */
 .header {
+    position: relative;
     width: 100vw;
     height: 70px;
     border-bottom: 2px solid #666666;
     vertical-align: middle;
 }
 .header_logo_div {
-    height: 50px;
-    width: 50px;
-    padding: 2px;
-    margin-top: 3px;
+    position: absolute;
+    height: 100%;
+    width: 400px;
+    /* padding: 2px; */
+    /* margin-top: 3px; */
     margin-bottom: auto;
     /* left: 50px; */
     float: left;
+    text-align: center;
 }
-.header_logo {
+img.header_logo {
+    position: absolute;
     width: 50px;
     height: auto;
-    vertical-align: middle;
-    border-top-right-radius: 5px; 
-    border-bottom-left-radius: 5px;
-    border-top-left-radius: 3px; 
-    border-bottom-right-radius: 3px;
+    top: 50%;
+    left: 50%;
+    margin-top: -25px; /* Half the height */
+    margin-left: -25px; /* Half the width */
+    border-top-right-radius: 9px; 
+    border-bottom-left-radius: 9px;
+    border-top-left-radius: 5px; 
+    border-bottom-right-radius: 5px;
 }
 .header_word_logo_div {
-    height: 30px;
-    width: 125px;
+    position: absolute;
+    /* overflow: auto; */
+    height: 100%;
+    width: 190px;
     margin-top: auto;
     margin-bottom: auto;
     float: left;
 }
-.header_word_logo {
+img.header_word_logo {
+    position: absolute;
     height: 30px;
     width: auto;
-    margin-top: auto;
-    margin-bottom: auto;
+    top: 50%;
+    left: 150%;
+    margin-top: -15px; /* Half the height */
+    margin-left: -50px; /* Half the width */
     
 }
 .decoration_container {
+    position: absolute;
     width: 100vw;
     height: 300px;
     background-image: linear-gradient(green, white);
@@ -219,6 +232,22 @@ input{
     margin-bottom: 2em;
     text-decoration: underline;
 }
+.center_container {
+    position: absolute;
+    width: 60%;
+    left: 20%;
+    margin: auto;
+    height: 100vh;
+}
+.footer_helper_div {
+    position: absolute;
+    width: 60%;
+    left: 20%;
+    margin: auto;
+    height: 40vh;
+}
+/* footer reused from login screen */
+
 
 /* --------------------------------------------------------------------------- */
 /* ---------------------- Applies to Application Screen ---------------------- */
