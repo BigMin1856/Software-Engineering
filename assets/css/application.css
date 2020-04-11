@@ -1,45 +1,126 @@
+/* get the styles for special icons*/
+@import "https://cssicon.space/css/icons.css";
 /* --------------------Applies to all content-------------------- */
 * {
     font-family: sans-serif;
 }
 /* uncomment below to view/debug divs */
-div { border-style: solid; border-width: 1px; } 
+/* div { border-style: solid; border-width: 1px; }  */
 
-/* --------------------Applies to grid layout-------------------- */
+/* --------------------------------------------------------------------------- */
+/* ------------------------ Applies to Main App Screen ----------------------- */
+/* --------------------------------------------------------------------------- */
 body {
     margin: 0px;
-}
-.left { 
-    grid-row-start: 2;
-    grid-row-end: 4;
-    overflow-y: auto;
-}
-.main { 
-    position: relative;
-    overflow-y: auto;
-    text-align: center;
-}
-.right { 
-    grid-row: span 2;
 }
 .grid_container {
     display: grid;
     grid-gap: 5px;
     min-height: 100vh;
     min-width: 100vw;
-    grid-template-columns: 1fr 5fr 1fr;
+    grid-template-columns: 1fr 2.8fr;
     padding: 0px;
     margin: 0px;
     /* color scheme */
     /* background-color: rgb(102, 170, 50); */
 }
-/* direct descendants of grid-container divs that are also divs */
-.grid-container > div {
-padding: 10px;
-font-size: 1em;
-/* color scheme */
-/* background-color: rgb(102, 102, 102); */
+
+/* LEFTSIDE section */
+.left { 
+    grid-row-start: 2;
+    grid-row-end: 4;
+    overflow-y: auto;
+    padding: 3px;
 }
+.message_header_container {
+    height: 3em;
+    width: 100%;
+    min-width: 365px;
+}
+.user_div {
+    text-align: center;
+    vertical-align: middle;
+    max-width: 300px;
+    /* padding: 1em auto;  */
+    padding-top: 1em;
+    padding-bottom: .8em;
+    padding-left: 2em;
+    float: left;
+    /* below makes string not overflow out of div*/
+    overflow-x: auto; /* Use horizontal scroller if needed */
+    white-space: pre-wrap; /* css-3 */
+    white-space: -moz-pre-wrap !important; /* Mozilla, since 1999 */
+    word-wrap: break-word; /* Internet Explorer 5.5+ */
+    white-space : normal;
+}
+.icon, .icon:before, .icon:after, .icon i, .icon i:before, .icon i:after { 
+  transition: all 0.4s ease;
+}
+.more_vertical_solid_div {
+    position: relative;
+    float: right;
+    height: 18px;
+    width: 20px;
+    padding: 15px 3px;
+    cursor: pointer;
+}
+.new_message_icon_div {
+    position: relative;
+    float: left;
+    height: 18px;
+    width: 20px;
+    padding: 3px 4px 8px 3px;
+    margin: 8px 0px 5px 20px;
+    cursor: pointer;
+    border-radius: 25px;
+    border: 1px solid black;
+    box-shadow: 1px 1px rgb(119, 119, 119);
+}
+.new_message_div {
+    float: left;
+    text-align: center;
+    vertical-align: middle;
+    max-width: 300px;
+    padding: 1em 10px .8em 10px; 
+}
+
+/* MAIN Section */
+.main { 
+    position: relative;
+    overflow-y: auto;
+    text-align: center;
+    padding: 3px;
+    border-style: solid;
+    border-color: #666666;
+}
+.firechat_wrapper {
+    width: 100%;
+    height: 50%;
+}
+.logout_button {
+    width: 150px; 
+    height: 20px;
+    cursor: pointer;
+    background-color: rgb(56, 118, 29);
+    color: white;
+    font-weight: 700;
+    margin: 0 auto; 
+    padding: 3px;
+    border-radius: 5px;
+    display: table-cell; 
+    line-height: 20px;
+    display: inline-block;  
+}
+.button_for_login_submit:hover {
+    background-color: rgb(30, 239, 24);
+    color: #666666;
+}
+/* RIGHTSIDE Section */
+.right { 
+    grid-row: span 2;
+    padding: 3px;
+}
+
 
 /* --------------------------------------------------------------------------- */
 /* --------------------Applies to login and Sign up Screen-------------------- */
@@ -193,6 +274,7 @@ img.header_logo {
     border-bottom-left-radius: 9px;
     border-top-left-radius: 5px; 
     border-bottom-right-radius: 5px;
+    cursor: pointer;
 }
 .header_word_logo_div {
     position: absolute;
@@ -211,7 +293,7 @@ img.header_word_logo {
     left: 150%;
     margin-top: -15px; /* Half the height */
     margin-left: -50px; /* Half the width */
-    
+    cursor: pointer;
 }
 .decoration_container {
     position: absolute;
@@ -223,6 +305,7 @@ img.header_word_logo {
     position: relative;
     top: 20px;
     width:  60%;
+    max-width: 800px;
     margin: auto;
     padding: auto;
     text-align: justify;
@@ -248,29 +331,13 @@ img.header_word_logo {
 }
 /* footer reused from login screen */
 
+/* --------------------------------------------------------------------------- */
+/* -------------------------- Applies to Help Screen ------------------------- */
+/* --------------------------------------------------------------------------- */
+.help_msg_container {
+    z-index: 1000;
+    /* position: absolute; */
+    height: 100px;
+    width: 100px;
+}
 
-/* --------------------------------------------------------------------------- */
-/* ---------------------- Applies to Application Screen ---------------------- */
-/* --------------------------------------------------------------------------- */
-.logout_button {
-    width: 150px; 
-    height: 20px;
-    cursor: pointer;
-    background-color: rgb(56, 118, 29);
-    color: white;
-    font-weight: 700;
-    margin: 0 auto; 
-    padding: 3px;
-    border-radius: 5px;
-    display: table-cell; 
-    line-height: 20px;
-    display: inline-block;  
-}
-.button_for_login_submit:hover {
-    background-color: rgb(30, 239, 24);
-    color: #666666;
-}
-.firechat_wrapper {
-    width: 100%;
-    height: 50%;
-}

@@ -44,7 +44,9 @@ bower_components
 build/Release
 
 # Dependency directories
-node_modules/
+node_modules/*
+# but not these in node_modules
+!node_modules/firechat/dist/firechat.css
 
 # Optional npm cache directory
 .npm

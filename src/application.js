@@ -1,6 +1,13 @@
 
 'use strict';
 
+// check screen state before performing a change screen function and update after changing.
+// location.reload() restarts the program at main
+const screenStates = {
+    LOGIN_SIGNUP: 'loginScreen', //
+    MAIN_APP: 'mainAppScreen',
+    FOOTER_LINK: 'footerLinkScreens'
+}
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -23,20 +30,24 @@
 //      will display
 //-------------------------------------------------------------
 
+var screenState = screenStates.MAIN_APP;
 firebase.auth().onAuthStateChanged(function (user) {
 
     // if not logged in, then show log in screen
     if (user) { 
-        //UNCOMMENT TO FORCE LOGGOUT
-        console.log("signed in");
-        renderLogInScreen();
-        renderApplication();
-        initChat(user);
-        //firebase.auth().signOut();
-        // let user = firebase.auth().currentUser;
+        // user object to send to application renderer
+        let user = firebase.auth().currentUser;
         // let username = user.email.split('@')
-        // // Set the Firechat user
+        // Set the Firechat user
         // chatui.setUser(user.uid, user.displayName);
+
+        console.log("signed in");
+        renderApplication(user);
+        initChat(user);
+        //UNCOMMENT TO FORCE LOGGOUT
+        //firebase.auth().signOut();
+
+        
 
         // //Welcome Message (temp)
         // document.getElementById("user").innerHTML = `welcome ${user.email} ${`${user.displayName == null ? ` ` : `or should i call you ${user.displayName} ;)`}`}`
@@ -55,9 +66,10 @@ firebase.auth().onAuthStateChanged(function (user) {
 
     } // end ifs
     
-    else { //if there is no user signed in
+    else { //if user is not signed in
         // redirect to login screen
         renderLogInScreen();
+        
         console.log("signed out");
     }
 });
@@ -75,6 +87,7 @@ firebase.auth().onAuthStateChanged(function (user) {
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // This section contains all the functions related to the user interface and 
 // screen changing. 
+// All functions read the previous screen state, change the screen then set the screen state to reflect the change
 
 // Below is a list of functions to use outside of this file:
 // (functions not included in this list are helper functions for this file)
@@ -126,11 +139,8 @@ firebase.auth().onAuthStateChanged(function (user) {
 -------------------------------------------------------------*/
 function renderLogInScreen() {
     //---MAIN LOGIN SECTION---//
-    // clear main application stuff
-    removeElementById('leftside');
-    removeElementById('rightside');
-    removeElementById('main');
-    removeElementById('grid_container');
+    // remove elements from previous screen
+    removeScreen();
 
     // create main_login_contents div
     var centerContainer = createElementByClassId('div', 'center_container', 'center_container');
@@ -181,7 +191,7 @@ function renderLogInScreen() {
     loginButton.appendChild(document.createTextNode("LOGIN"));
     loginButton.onclick = function() { 
         login();
-        renderApplication();
+        // location.reload();
          };
     // add button to div
     loginButtonDiv.appendChild(loginButton);
@@ -232,28 +242,79 @@ function renderLogInScreen() {
     document.getElementById("login_div").appendChild(loginButtonDiv);
     document.getElementById("main_login_contents").appendChild(haveAccountDiv);
     document.getElementById("center_container").appendChild(footerLinksDiv);
+
+    // set screen state
+    screenState = screenStates.LOGIN_SIGNUP;
+
 }//end renderLogInScreen()
 
 
 /*-------------------------------------------------------------
 // Function: renderApplication
 // Desc: remove login elements and replaces them with app
-// Parameters: N/A
+// Parameters: currentUser: firebase user
 // Return:  N/A
 -------------------------------------------------------------*/
-function renderApplication() {
-    // remove login stuff and add application skeleton
-    removeElementById('center_container');
-    var left = createElementByClassId('div', 'leftside', 'leftside');
-    var main = createElementByClassId('div', 'main', 'main');
-    var right = createElementByClassId('div', 'rightside', 'rightside');
-    var container = createElementByClassId('div', 'grid_container', 'grid_container');
-    document.body.appendChild(container);
-    document.getElementById("grid_container").appendChild(left);
-    document.getElementById("grid_container").appendChild(main);
-    document.getElementById("grid_container").appendChild(right);
+function renderApplication(currentUser) { // TODO: messaging application
+    // screen state is not read since app screen appears on reload if the user is logged in
+    removeScreen();
 
+    // create main sections of the application screen
+    var container = createElementByClassId('div', 'grid_container', 'grid_container');
+    container.appendChild(createElementByClassId('div', 'leftside', 'leftside'));
+    container.appendChild(createElementByClassId('div', 'main', 'main'));
+    document.body.appendChild(container);
+    //////////////
+    // LEFTSIDE // new conversation, settings, conversations, contacts
+    //////////////
+    var user = firebase.auth().currentUser;
+    // conversations header
+    $('.leftside').html(`
+        <div class="message_header_container">
+            <div id="user_div" class="user_div">
+                ${currentUser.displayName}\'s Conversations
+            </div>
+            <div class="more_vertical_solid_div">
+                <div class="more-vertical-solid icon menu_icon"></div>
+            </div>
+        </div>
+        <hr>
+        <div class="message_header_container">
+            <div id="new_message_icon_div" class="new_message_icon_div">
+                <div class="plus icon new_message_icon"></div>
+            </div>
+            <div id="new_message_div" class="new_message_div">
+                New Message
+            </div>
+        </div>
+        `);
+    // menu functions
+    // TODO: add functionality 
+    $('.more_vertical_solid_div').hover(function(){
+        $('.menu_icon')
+            .toggleClass('more-vertical-solid')
+            .toggleClass('more-vertical');
+        });
+    // new message functions
+    // TODO: add functionality
+    $('.new_message_icon_div').hover(function(){
+        $('.new_message_icon')
+          .toggleClass('plus')
+          .toggleClass('edit');
+      })
+    
+      // list of conversations (aka chatrooms)
+      // TODO: retrieve list of chatrooms from firechat
+    
+
+
+    //////////////
+    //// MAIN ////
+    //////////////
     // add chat to main (middle)
+    // $('.main').html('
+    //   <div id="account_settings_container">
+    // ');
     var firechatWrapper = createElementByClassId('div', 'firechat_wrapper', "firechat_wrapper");
     document.getElementById("main").appendChild(firechatWrapper);
 
@@ -261,9 +322,15 @@ function renderApplication() {
     var logoutButton = createElementByClassId('div', 'logout_button', "logout_button");
     logoutButton.appendChild(document.createTextNode("LOGOUT"));
     logoutButton.onclick = function() { 
-        logOut(); //reload automatic
+        logOut();
+        location.reload();
          };
     document.getElementById("main").appendChild(logoutButton); 
+
+    // RIGHTSIDE //
+
+    // set screen state
+    screenState = screenStates.MAIN_APP;
 }
 
 /*-------------------------------------------------------------
@@ -273,7 +340,7 @@ function renderApplication() {
 // Parameters: N/A
 // Return:  N/A
 -------------------------------------------------------------*/
-function convertFromLoginToSignUp() {// The
+function convertFromLoginToSignUp() {
     // replace login for sign up on the button
     var buttonDiv = document.getElementById("button_for_login_submit");
     buttonDiv.removeChild(buttonDiv.childNodes[0]);
@@ -302,99 +369,29 @@ function convertFromLoginToSignUp() {// The
 // Return: N/A
 -------------------------------------------------------------*/
 function convertScreenToAboutScreen() {
-    // must be coming from the login screen
-    var child = document.body.childNodes;
-    console.log(child);
-    // remove previous contents of the page
-    removeElementById('center_container');
-    
-    // HEADER // 
-    // TODO: make logo reload page
-    // create header
-    var header = createElementByClassId('div', 'header', 'header');
-    // create logo
-    var logoDiv = createElementByClassId('div','header_logo_div', 'header_logo_div');
-    var logo = createElementByClassId("img", 'header_logo', 'header_logo');
-    logo.src = "assets/images/logo.png";
-    logoDiv.appendChild(logo);
-    // add logo to header
-    header.appendChild(logoDiv);
-    // create word logo
-    var wordLogoDiv = createElementByClassId('div','header_word_logo_div', 'header_word_logo_div');
-    var wordLogo = createElementByClassId("img", 'header_word_logo', 'header_word_logo');
-    wordLogo.src = "assets/images/logo_word.png";
-    wordLogoDiv.appendChild(wordLogo);
-    // add word logo to header
-    header.appendChild(wordLogoDiv);
 
-    // add header to the document
-    document.body.appendChild(header);
+    var title = 'About Safely Sent';
+    var aboutMessage = 'The creators of this project, Marc Minnick, Joshua Moran, and Galen Shirey,\
+    are all CSC-355 Software Engineering II students eager to make our first large scale project.\
+    Our goal is to provide a customer the peace of mind that should be had when speaking to someone\
+    over text or voice. We plan to achieve these goals by implementing high-level encryption\
+    methods into our private and group messaging modules of the application.';
 
-    // CONTENT //
-    // create title, contents
-    var decorationContainer = createElementByClassId('div', 'decoration_container', 'decoration_container');
-    var contentContainer = createElementByClassId('div', 'content_container', 'content_container');
-    var title = createElementByClassId('h1', 'about_title', 'about_title');
-    title.appendChild(document.createTextNode('About Safely Sent'));
-     // add title to container
-    contentContainer.appendChild(title);
-    var content = createElementByClassId('p', 'content_1', 'content');
-    content.appendChild(document.createTextNode(
-        'The creators of this project, Marc Minnick, Joshua Moran, and Galen Shirey,\
-        are all CSC-355 Software Engineering II students eager to make our first large scale project.\
-        Our goal is to provide a customer the peace of mind that should be had when speaking to someone\
-        over text or voice. We plan to achieve these goals by implementing high-level encryption\
-        methods into our private and group messaging modules of the application.'));
-    contentContainer.appendChild(content);
-    
-    // add title and content into the container
-    decorationContainer.appendChild(contentContainer);
+    // which screen the user came from?
+    if (screenState == screenStates.FOOTER_LINK) { // from ANOTHER LINK
+        //then replace title and contents
+        $('.about_title').html(title);
+        $('.content').html(aboutMessage);
+    }
+    else { // from the MAIN APP or from LOGIN/SIGNUP
+        // then remove everything and create about screen and replace content like above
+        removeScreen();
+        // render screen
+        addFooterLinksScreenByContentToDocument(title, aboutMessage);  
+    }
 
-    // create footer links
-    //var footerHelperDiv = createElementByClassId('div', 'footer_helper_div', 'footer_helper_div');
-    var footerHelperDiv = createElementByClassId('div', 'footer_helper_div', 'footer_helper_div');
-    // container for links
-    var footerLinksDiv = createElementByClassId('div', 'footer_links_div', 'footer_links_div');
-    // div for link
-    var linkDiv = createElementByClassId('div', '', 'links');
-    // create link
-    var link = createFunctionLinkElement('ABOUT', 'More Information', convertScreenToAboutScreen);
-    // ass link to link div
-    linkDiv.appendChild(link)
-    // add link div to footer links container
-    footerLinksDiv.appendChild(linkDiv);
-    // do the same as above for the other links in the footer
-    link = createFunctionLinkElement('HELP', 'Questions', convertScreenToHelpScreen);
-    linkDiv = createElementByClassId('div', '', 'links');
-    linkDiv.appendChild(link);
-    footerLinksDiv.appendChild(linkDiv);
-    link = createFunctionLinkElement('JOBS', 'There are none', convertScreenToJobsScreen);
-    linkDiv = createElementByClassId('div', '', 'links');
-    linkDiv.appendChild(link);
-    footerLinksDiv.appendChild(linkDiv);
-    link = createFunctionLinkElement('PRIVACY', 'There is none', convertScreenToPrivacyScreen);
-    linkDiv = createElementByClassId('div', '', 'links');
-    linkDiv.appendChild(link);
-    footerLinksDiv.appendChild(linkDiv);
-    link = createLinkElement('GITHUB', 'https://github.com/BigMin1856/Software-Engineering', 'View code');
-    linkDiv = createElementByClassId('div', '', 'links');
-    linkDiv.appendChild(link);
-    footerLinksDiv.appendChild(linkDiv);
-    footerHelperDiv.appendChild(footerLinksDiv);
-
-    // add everything to the body
-    document.body.appendChild(decorationContainer);
-    document.body.appendChild(footerHelperDiv);
-    
-
-    // // create about content
-    // var contentContainer = createElementByClassId('div', 'content_container', 'content_container');
-    // var content = createElementByClassId('p', 'content_1', 'content');
-    // content.appendChild(document.createTextNode(
-    //     'The creators of this project, Marc Minnick, Joshua Moran, and Galen Shirey,\
-    //     are all CSC-355 Software Engineering II students eager to make our first large scale project'));
-    // contentContainer.appendChild(content);
-
+    // update screen state
+    screenState = screenStates.FOOTER_LINK;
 }
 
 /*-------------------------------------------------------------
@@ -405,18 +402,56 @@ function convertScreenToAboutScreen() {
 // Return: N/A
 -------------------------------------------------------------*/
 function convertScreenToJobsScreen() {
-    console.log('called convert to JOBS');
+
+    var title = 'Jobs'
+    var jobsMessage = 'If you enjoy the services that this website provides and want to\
+        contact the developers for a job opportunity you can reach the team at (420) 555 - 6969';
+
+    // which screen the user came from?
+    if (screenState == screenStates.FOOTER_LINK) { // from ANOTHER LINK
+        //then replace title and contents
+        $('.about_title').html(title);
+        $('.content').html(jobsMessage);
+    }
+    else { // from the MAIN APP or from LOGIN/SIGNUP
+        // then remove everything and create about screen and replace content like above
+        removeScreen();
+        // render screen
+        addFooterLinksScreenByContentToDocument(title, jobsMessage);  
+    }
+
+    // update screen state
+    screenState = screenStates.FOOTER_LINK;
 }
 
 /*-------------------------------------------------------------
 // Function: convertScreenToHelpScreen
-// Desc: remove screen elements and replce them with an help
+// Desc: remove screen elements and replce them with a help
 //      screen
 // Parameters: N/A
 // Return: N/A
 -------------------------------------------------------------*/
 function convertScreenToHelpScreen() {
-    console.log('called convert to HELP');
+
+    var title = 'Help';
+    var helpMessage = "We strive to make the application as intuitive and self explanatory as\
+    possible, however, if you are unsure how something works or have a question,\
+    you can contact us at (420) 555 - 6969";
+    // which screen the user came from?
+    if (screenState == screenStates.FOOTER_LINK) { // from ANOTHER LINK
+        //then replace title and contents
+        $('.about_title').html(title);
+        $('.content').html(helpMessage);
+    }
+    else { // from the MAIN APP or from LOGIN/SIGNUP
+        // then remove everything and create about screen and replace content like above
+        removeScreen();
+        // render screen
+        addFooterLinksScreenByContentToDocument(title, helpMessage);
+    }
+
+    // update screen state
+    screenState = screenStates.FOOTER_LINK;
 }
 
 /*-------------------------------------------------------------
@@ -427,10 +462,30 @@ function convertScreenToHelpScreen() {
 // Return: N/A
 -------------------------------------------------------------*/
 function convertScreenToPrivacyScreen() {
-    console.log('called convert to PRIVACY');
-}
-// end !SECTION UI FUNCTIONS
 
+    var title = 'Our View On Privacy';
+    var helpMessage = "Safely Sent values privacy. With that being said, we make no guarantees that\
+        any information you provide to our service or any information going through our service,\
+        will not be viewed by a third party. What we can guarantee is that there are no gurantees.";
+    // which screen the user came from?
+    if (screenState == screenStates.FOOTER_LINK) { // from ANOTHER LINK
+        //then replace title and contents
+        $('.about_title').html(title);
+        $('.content').html(helpMessage);
+    }
+    else { // from the MAIN APP or from LOGIN/SIGNUP
+        // then remove everything and create about screen and replace content like above
+        removeScreen();
+        // render screen
+        addFooterLinksScreenByContentToDocument(title, helpMessage);
+    }
+
+    // update screen state
+    screenState = screenStates.FOOTER_LINK;
+}
+///////////////////////////////////
+// end !SECTION UI FUNCTIONS
+///////////////////////////////////
 
 
 
@@ -493,7 +548,7 @@ function createElementByClassId(tag, id, cName) {
 }
 
 /*-------------------------------------------------------------
-// Function: createElementByClassId TODO proper doc
+// Function: removeElementById TODO depricated; replace with jquery's $('.class_name').remove();
 // Desc: creates an element base on parameters
 // Parameters:  tag - element to create
 //              id - id for element
@@ -507,8 +562,125 @@ function removeElementById(elementId) {
     
 }
 
-// end !SECTION HELPER FUNCTIONS
+/*-------------------------------------------------------------
+// Function: renderFooterLinksScreenByContent 
+// Desc: modifies the document to the footer link template with
+//      the content passed in
+// Parameters:  title - element to create
+//              message - id for element
+// Return:  element with id and class
+-------------------------------------------------------------*/
+function addFooterLinksScreenByContentToDocument(titleMsg, bodyMsg) {
+        // HEADER // 
+        // create header
+        var header = createElementByClassId('div', 'header', 'header');
+        // create logo
+        var logoDiv = createElementByClassId('div','header_logo_div', 'header_logo_div');
+        var logo = createElementByClassId("img", 'header_logo', 'header_logo');
+        logo.src = "assets/images/logo.png";
+        logo.onclick = function() {  //make logo reload, aka return to main page
+            location.reload();
+            };
+        logoDiv.appendChild(logo);
+        
+        // add logo to header
+        header.appendChild(logoDiv);
+        // create word logo
+        var wordLogoDiv = createElementByClassId('div','header_word_logo_div', 'header_word_logo_div');
+        var wordLogo = createElementByClassId("img", 'header_word_logo', 'header_word_logo');
+        wordLogo.src = "assets/images/logo_word.png";
+        wordLogo.onclick = function() {  //make logo reload, aka return to main page
+            location.reload();
+            };
+        wordLogoDiv.appendChild(wordLogo);
+        // add word logo to header
+        header.appendChild(wordLogoDiv);
 
+        // add header to the document
+        document.body.appendChild(header);
+
+        // CONTENT //
+        // create title, contents
+        var decorationContainer = createElementByClassId('div', 'decoration_container', 'decoration_container');
+        var contentContainer = createElementByClassId('div', 'content_container', 'content_container');
+        var title = createElementByClassId('h1', 'about_title', 'about_title');
+        title.appendChild(document.createTextNode(titleMsg));
+        // add title to container
+        contentContainer.appendChild(title);
+        var content = createElementByClassId('p', 'content_1', 'content');
+        content.appendChild(document.createTextNode(bodyMsg));
+        contentContainer.appendChild(content);
+        
+        // add title and content into the container
+        decorationContainer.appendChild(contentContainer);
+
+        // create footer links
+        //var footerHelperDiv = createElementByClassId('div', 'footer_helper_div', 'footer_helper_div');
+        var footerHelperDiv = createElementByClassId('div', 'footer_helper_div', 'footer_helper_div');
+        // container for links
+        var footerLinksDiv = createElementByClassId('div', 'footer_links_div', 'footer_links_div');
+        // div for link
+        var linkDiv = createElementByClassId('div', '', 'links');
+        // create link
+        var link = createFunctionLinkElement('ABOUT', 'More Information', convertScreenToAboutScreen);
+        // ass link to link div
+        linkDiv.appendChild(link)
+        // add link div to footer links container
+        footerLinksDiv.appendChild(linkDiv);
+        // do the same as above for the other links in the footer
+        link = createFunctionLinkElement('HELP', 'Questions', convertScreenToHelpScreen);
+        linkDiv = createElementByClassId('div', '', 'links');
+        linkDiv.appendChild(link);
+        footerLinksDiv.appendChild(linkDiv);
+        link = createFunctionLinkElement('JOBS', 'There are none', convertScreenToJobsScreen);
+        linkDiv = createElementByClassId('div', '', 'links');
+        linkDiv.appendChild(link);
+        footerLinksDiv.appendChild(linkDiv);
+        link = createFunctionLinkElement('PRIVACY', 'There is none', convertScreenToPrivacyScreen);
+        linkDiv = createElementByClassId('div', '', 'links');
+        linkDiv.appendChild(link);
+        footerLinksDiv.appendChild(linkDiv);
+        link = createLinkElement('GITHUB', 'https://github.com/BigMin1856/Software-Engineering', 'View code');
+        linkDiv = createElementByClassId('div', '', 'links');
+        linkDiv.appendChild(link);
+        footerLinksDiv.appendChild(linkDiv);
+        footerHelperDiv.appendChild(footerLinksDiv);
+
+        // add everything to the body
+        document.body.appendChild(decorationContainer);
+        document.body.appendChild(footerHelperDiv);
+}
+
+/*-------------------------------------------------------------
+// Function: removeScreen TODO proper doc
+// Desc: removes content that is on the screen
+// Parameters:  (uses global screen state)
+// Return:  (remove the elements)
+-------------------------------------------------------------*/
+function removeScreen() {
+    console.log('called removeScreen() for');
+    console.log(screenState);
+    switch (screenState) {
+        case screenStates.LOGIN_SIGNUP:
+            $('.center_container').remove();
+            break;
+        case screenStates.MAIN_APP:
+            $('.grid_container').remove();
+            break;
+        case screenStates.FOOTER_LINK:
+            $('.header').remove();
+            $('.decoration_container').remove();
+            $('.footer_helper_div').remove();
+            break;
+    
+        default:
+            break;
+    }
+}
+
+///////////////////////////////////
+// end !SECTION HELPER FUNCTIONS
+///////////////////////////////////
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -540,8 +712,12 @@ function login() {
         // Handle Errors here.
         let errorCode = error.code;
         let errorMessage = error.message;
-        console.log(errorMessage)
-        window.alert(errorMessage)
+        if (errorCode === 'auth/wrong-password') {
+            alert('Wrong password.');
+          } else {
+            alert(errorMessage);
+          }
+          console.log(error);
     });
 }
 
@@ -593,7 +769,6 @@ function logOut() {
     firebase.auth().signOut().then(function () {
         // Sign-out successful.
         console.log("logout function");
-        location.reload();
     }).catch(function (error) {
         console.log('ERROR:' + error);
     });
