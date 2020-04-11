@@ -46,7 +46,7 @@ build/Release
 # Dependency directories
 node_modules/*
 # but not these in node_modules
-!node_modules/firechat/dist/firechat.css
+!*/firechat/dist/*
 
 # Optional npm cache directory
 .npm
