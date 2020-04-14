@@ -53,6 +53,7 @@ body {
     word-wrap: break-word; /* Internet Explorer 5.5+ */
     white-space : normal;
 }
+/* for icon animations */
 .icon, .icon:before, .icon:after, .icon i, .icon i:before, .icon i:after { 
   transition: all 0.4s ease;
 }
@@ -93,7 +94,34 @@ body {
     border-style: solid;
     border-color: #666666;
 }
-.firechat_wrapper {
+.account_settings_container {
+    position: relative;
+    height: 3em;
+    width: 100%;
+    min-width: 365px;
+}
+.conversation_title {
+    float: left;
+    height: 18px;
+    width: auto;
+    padding: 15px 3px;
+}
+.account_settings_message_div {
+    float: right;
+    height: 18px;
+    width: auto;
+    padding: 15px 3px;
+}
+.profile_icon_div {
+    position: relative;
+    float: right;
+    height: 18px;
+    width: 20px;
+    padding: 15px 3px;
+    margin: 0px 10px;
+    cursor: pointer;
+}
+.firechat_wrappe {
     width: 100%;
     height: 50%;
 }

@@ -43,6 +43,7 @@ firebase.auth().onAuthStateChanged(function (user) {
 
         console.log("signed in");
         renderApplication(user);
+        // renders firechat
         initChat(user);
         //UNCOMMENT TO FORCE LOGGOUT
         //firebase.auth().signOut();
@@ -303,18 +304,39 @@ function renderApplication(currentUser) { // TODO: messaging application
           .toggleClass('edit');
       })
     
-      // list of conversations (aka chatrooms)
-      // TODO: retrieve list of chatrooms from firechat
+    // list of conversations (aka chatrooms)
+    // TODO: retrieve list of chatrooms from firechat
     
 
 
     //////////////
     //// MAIN ////
     //////////////
-    // add chat to main (middle)
-    // $('.main').html('
-    //   <div id="account_settings_container">
-    // ');
+    
+
+    $('.main').html(`
+        <div id="account_settings_container" class="account_settings_container">
+            <div id="conversation_title" class="conversation_title">
+                Receiver'sName
+            </div>
+            <div id="profile_icon_div" class="profile_icon_div">
+                <div class="profile icon profile_icon"></div>
+            </div>
+            <div id="account_settings_message_div" class="account_settings_message_div">
+                My Account
+            </div>
+        </div>
+        <hr>
+    `); //TODO: change "receiversName" to variable
+
+    // account settings functions
+    $('.profile_icon_div').hover(function(){
+        $('.profile_icon')
+          .toggleClass('profile')
+          .toggleClass('menu');
+      });
+
+    // firechat
     var firechatWrapper = createElementByClassId('div', 'firechat_wrapper', "firechat_wrapper");
     document.getElementById("main").appendChild(firechatWrapper);
 
@@ -740,7 +762,7 @@ function signUp() {
         let user = firebase.auth().currentUser;
         let userID = user.uid;
         let email = user.email;
-        let username = email.split('@')
+        let username = email.split('@');
 
         user.updateProfile({
             displayName: username[0]
@@ -847,6 +869,10 @@ function changeUsername() {
     firebase.database().ref('users/' + currentUser.uid).update({ userName: newUsername })
 
 }
+
+
+
+
 
 /**************************************************
  * get database:
