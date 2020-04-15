@@ -1,6 +1,8 @@
 
 'use strict';
 
+//import { FirechatDefaultTemplates } from "firechat";
+
 // check screen state before performing a change screen function and update after changing.
 // location.reload() restarts the program at main
 const screenStates = {
@@ -42,7 +44,7 @@ firebase.auth().onAuthStateChanged(function (user) {
         // chatui.setUser(user.uid, user.displayName);
 
         console.log("signed in");
-        renderApplication(user);
+        renderApplication_2(user);
         // renders firechat
         initChat(user);
         //UNCOMMENT TO FORCE LOGGOUT
@@ -249,6 +251,68 @@ function renderLogInScreen() {
 
 }//end renderLogInScreen()
 
+/*-------------------------------------------------------------
+// Function: renderApplication_2
+// Desc: remove login elements and replaces them with app
+// Parameters: currentUser: firebase user
+// Return:  N/A
+-------------------------------------------------------------*/
+function renderApplication_2(currentUser) { // TODO: messaging application
+    // screen state is not read since app screen appears on reload if the user is logged in
+    removeScreen();
+
+    //////////////
+    // LEFTSIDE // new conversation, settings, conversations, contacts
+    //////////////
+    var user = firebase.auth().currentUser;
+
+    //////////////
+    //// MAIN ////
+    //////////////
+
+    $('body').html(`
+        <div id="main2_container" class="main2_container">
+            <div id="account_settings_container" class="account_settings_container">
+                <div id="main_header_logo_div" class="main_header_logo_div">
+                    <img id="main_header_logo" class="main_header_logo" src="assets/images/logo.png">
+                </div>
+                <div id="main_header_word_logo_div" class="main_header_word_logo_div">
+                    <img id="main_header_word_logo" class="main_header_word_logo" src="assets/images/logo_word.png">
+                </div>
+                <div id="profile_icon_div" class="profile_icon_div">
+                    <div class="profile icon profile_icon"></div>
+                </div>
+                <div id="account_settings_message_div" class="account_settings_message_div">
+                    My Account
+                </div>
+            </div>
+            <hr>
+            <div id="firechat_wrapper" class="firechat_wrapper"></div>
+            <div id="logout_button_main" class="logout_button_main">LOGOUT</div>
+        </div>
+        
+    `); //TODO: change "receiversName" to variable
+
+    // account settings functions
+    $('.profile_icon_div').hover(function(){
+        $('.profile_icon')
+          .toggleClass('profile')
+          .toggleClass('menu');
+      });
+
+    // add logout button
+    $('.logout_button_main').click(function() { 
+        logOut();
+        location.reload();
+         });
+    
+    
+
+    // RIGHTSIDE //
+
+    // set screen state
+    screenState = screenStates.MAIN_APP;
+}
 
 /*-------------------------------------------------------------
 // Function: renderApplication
@@ -989,6 +1053,12 @@ function initChat(user) {
     let chat = new FirechatUI(chatRef, document.getElementById("firechat_wrapper"));
     // Set the Firechat user
     chat.setUser(user.uid, user.displayName);
+
+    // var firebaseRef = firebase.database().ref("firechat");
+    // var chat = new Firechat(firebaseRef);
+    // chat.setUser(userId, userName, function(user) {
+    //     chat.resumeSession();
+    //     });
 }
 
 

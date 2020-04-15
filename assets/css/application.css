@@ -8,6 +8,80 @@
 /* div { border-style: solid; border-width: 1px; }  */
 
 /* --------------------------------------------------------------------------- */
+/* ----------- Applies to Main2 App Screen (with some from below)------------- */
+/* --------------------------------------------------------------------------- */
+.main2_container{
+    width: 65%;
+    height: 100vh;
+    margin: 0 auto;
+    padding: 2px;
+}
+.main_header_logo_div {
+    position: relative;
+    height: 100%;
+    width: 60px;
+    /* padding: 2px; */
+    /* margin-top: 3px; */
+    /* margin-bottom: auto; */
+    /* left: 50px; */
+    float: left;
+    text-align: center;
+}
+img.main_header_logo {
+    position: absolute;
+    width: 50px;
+    height: auto;
+    top: 50%;
+    left: 50%;
+    margin-top: -25px; /* Half the height */
+    margin-left: -25px; /* Half the width */
+    border-top-right-radius: 9px; 
+    border-bottom-left-radius: 9px;
+    border-top-left-radius: 5px; 
+    border-bottom-right-radius: 5px;
+    cursor: pointer;
+}
+.main_header_word_logo_div {
+    position: relative;
+    /* overflow: auto; */
+    height: 100%;
+    width: 200px;
+    padding: auto;
+    /* margin-top: auto; */
+    /* margin-bottom: auto; */
+    float: left;
+}
+img.main_header_word_logo {
+    position: absolute;
+    height: 30px;
+    width: auto;
+    top: 50%;
+    left: 70px;
+    margin-top: -15px; /* Half the height */
+    margin-left: -50px; /* Half the width */
+    cursor: pointer;
+}
+.logout_button_main {
+    width: 150px; 
+    height: 20px;
+    cursor: pointer;
+    background-color: rgb(56, 118, 29);
+    color: white;
+    font-weight: 700;
+    margin: 0 40%; 
+    padding: 3px;
+    border-radius: 5px;
+    line-height: 20px;
+    display: inline-block; 
+    text-align: center; 
+}
+.logout_button_main:hover {
+    background-color: rgb(30, 239, 24);
+    color: #666666;
+}
+
+
+/* --------------------------------------------------------------------------- */
 /* ------------------------ Applies to Main App Screen ----------------------- */
 /* --------------------------------------------------------------------------- */
 body {
