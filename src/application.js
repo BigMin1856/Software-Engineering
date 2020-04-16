@@ -186,6 +186,12 @@ function renderLogInScreen() {
     var passwordInput = createElementByClassId('input', 'passwordField', "passwordField");
     passwordInput.type = "password";
     passwordInput.placeholder = "Password";
+    passwordInput.addEventListener("keyup", function(event) { //press enter to activate button
+        if (event.keyCode === 13) {
+            event.preventDefault();
+            document.getElementById("button_for_login_submit").click();
+        }
+    });
     // add input to input div
     passwordInputDiv.appendChild(passwordInput);
     // Submit Button Section - create button div and button (also a div)
@@ -198,6 +204,7 @@ function renderLogInScreen() {
          };
     // add button to div
     loginButtonDiv.appendChild(loginButton);
+
 
     // //---SIGN UP AREA---//
     // create div
