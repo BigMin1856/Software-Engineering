@@ -9,6 +9,23 @@ const screenStates = {
     FOOTER_LINK: 'footerLinkScreens'
 }
 
+class Conversation {
+    constructor() {
+        this.roomID =  "";         //convoID
+        this.receiverName = "";
+        this.receiverID = "";
+        this.messages = new Array(); //array of message objects
+    }
+};
+
+class Message {
+    constructor() {
+        this.messageID = "";
+        this.text = "";
+        this.time = "";
+    }
+}
+
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -18,19 +35,15 @@ const screenStates = {
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// // Get a Firebase Database ref
-// let chatRef = firebase.database().ref("chat");
-// // Create a Firechat instance
-// // handles sending and receiving messages
-// let chatui = new FirechatUI(chatRef, document.getElementById("firechat_wrapper"));
+
 
 //-------------------------------------------------------------
 //Desc: USER STATE METHOD
 //      If a user is currently logged in, the correct HTML will
 //      will display
 //-------------------------------------------------------------
-
 var screenState = screenStates.MAIN_APP;
+let conversationList = new Array();
 firebase.auth().onAuthStateChanged(function (user) {
 
     // if not logged in, then show log in screen
@@ -43,8 +56,7 @@ firebase.auth().onAuthStateChanged(function (user) {
 
         console.log("signed in");
         renderApplication(user);
-        // renders firechat
-        initChat(user);
+        
         //UNCOMMENT TO FORCE LOGGOUT
         //firebase.auth().signOut();
 
@@ -260,6 +272,10 @@ function renderApplication(currentUser) { // TODO: messaging application
     // screen state is not read since app screen appears on reload if the user is logged in
     removeScreen();
 
+    // renders firechat
+    var chat;
+    chat = initChat(currentUser);
+
     // create main sections of the application screen
     var container = createElementByClassId('div', 'grid_container', 'grid_container');
     container.appendChild(createElementByClassId('div', 'leftside', 'leftside'));
@@ -354,7 +370,6 @@ function renderApplication(currentUser) { // TODO: messaging application
     // set screen state
     screenState = screenStates.MAIN_APP;
 }
-
 /*-------------------------------------------------------------
 // Function: convertFromLoginToSignUp
 // Desc: remove login elements and replaces them with sign up
@@ -978,20 +993,83 @@ function removeContact() {
 
 //-------------------------------------------------------------
 //Function: initChat(user)
-//Desc: Method for creating chat rooms
+//Desc: initiates chat and populate the conversationList with 
+//      user's conversations
 //Err:  Unknown
 //-------------------------------------------------------------
 //Firebase messaging object
 function initChat(user) {
-    // Get a Firebase Database ref
-    let chatRef = firebase.database().ref("chat");
-    // Create a Firechat instance
-    let chat = new FirechatUI(chatRef, document.getElementById("firechat_wrapper"));
-    // Set the Firechat user
-    chat.setUser(user.uid, user.displayName);
+
+    // Initialize firechat
+    // get a firebase database ref
+    var firebaseRef = firebase.database().ref("chat");
+    // Creates a new instance of Firechat. ref is a Firebase Database reference.
+    var chat = new Firechat(firebaseRef);
+    // Initiates the authenticated connection to Firebase, loads any user metadata, 
+    // and initializes Firebase listeners for chat events.
+    chat.setUser(user.uid, user.displayName, function(user) {
+        // Automatically re-enters any chat rooms that the user was 
+        // previously in, if the user has history saved.
+        chat.resumeSession();
+    });
+
+    //retreive and store conversations
+    chat.getRoomList(function(rooms) {
+        console.log("- - - getRoomList()"); // REVIEW test
+        let currentUserID = user.uid;
+        console.log(currentUserID);
+        let currentUserRooms = new Array();
+        // save rooms that the current user is a part of
+        for(var roomID in rooms) {
+            for(var userID in rooms[roomID].authorizedUsers){ // for every authorized user in every room;
+                // if current user is an authorized user, then save roomID(conversation), add to ConvoList
+                if(userID == currentUserID) {
+                    var convo = new Conversation();
+                    convo.roomID = roomID;
+                    conversationList.push(convo);
+                }
+                console.log("UserID = " + userID + " | RoomID = " + roomID);
+            }
+        }
+
+        //get users without the firechat api method
+        // let usersDBRef = firebase.database().ref('chat/room-metadata'); 
+        // console.log('DATABASE');
+        // console.log(usersDBRef);
+        // usersDBRef.orderByChild("authorizedUsers").on("child_added", function(snapshot) {
+        //     console.log(snapshot.key + " is " + snapshot.val().authorizedUsers);
+        // });
+
+        // get users using firechat api method
+        // save users associated with the rooms
+        console.log(conversationList.length);
+        for(var i = 0; i < conversationList.length; i++) {
+            chat.getUsersByRoom(conversationList[i].roomID, 20, console.log);
+        }
+
+        return chat;
+    });//end getRoomList()
+
+    
+
+    ///////////////////////////////////////////////////////////////////////////////////
+    // Example on how to retreive database data---prints 'id' is 'user name'
+    // let usersDBRef = firebase.database().ref('users'); 
+    // usersDBRef.orderByChild("userName").on("child_added", function(snapshot) {
+    //     console.log(snapshot.key + " is " + snapshot.val().userName);
+    // });
+    ///////////////////////////////////////////////////////////////////////////////////
+
+     
+}// end initChat()
+
+
+
+
+// send invite to other user
+function sendInvite(fchat, userid, roomid) {
+    fchat.inviteUser(userid, roomid)
 }
-
-
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1026,4 +1104,6 @@ function initChat(user) {
 //      https://firebase.google.com/docs/database/web/offline-capabilities
 //  some sample code if you get REALLY stuck
 //      https://firebase.google.com/docs/samples
+// firechat docs - API functions
+//      https://firechat.firebaseapp.com/docs/
 //
