@@ -312,13 +312,17 @@ function renderApplication(currentUser) { // TODO: messaging application
             .toggleClass('more-vertical-solid')
             .toggleClass('more-vertical');
         });
+
     // new message functions
     // TODO: add functionality
     $('.new_message_icon_div').hover(function(){
         $('.new_message_icon')
           .toggleClass('plus')
           .toggleClass('edit');
-      })
+      });
+    $('.new_message_icon_div').click(function() {
+        showSearchForUser();
+    });
     
     // list of conversations (aka chatrooms)
     // TODO: retrieve list of chatrooms from firechat
@@ -365,11 +369,20 @@ function renderApplication(currentUser) { // TODO: messaging application
          };
     document.getElementById("main").appendChild(logoutButton); 
 
-    // RIGHTSIDE //
-
     // set screen state
     screenState = screenStates.MAIN_APP;
 }
+
+/*-------------------------------------------------------------
+// Function: showSearchForUser
+// Desc: remove conversations and show search bar
+// Parameters: N/A
+// Return:  N/A
+-------------------------------------------------------------*/
+function showSearchForUser() {
+
+}
+
 /*-------------------------------------------------------------
 // Function: convertFromLoginToSignUp
 // Desc: remove login elements and replaces them with sign up
@@ -1068,7 +1081,7 @@ function initChat(user) {
 
 // send invite to other user
 function sendInvite(fchat, userid, roomid) {
-    fchat.inviteUser(userid, roomid)
+    fchat.inviteUser(userid, roomid);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
