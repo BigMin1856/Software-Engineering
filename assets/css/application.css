@@ -11,7 +11,7 @@
 /* ----------- Applies to Main2 App Screen (with some from below)------------- */
 /* --------------------------------------------------------------------------- */
 .main2_container{
-    width: 65%;
+    width: 50%;
     height: 100vh;
     margin: 0 auto;
     padding: 2px;
@@ -65,7 +65,13 @@ img.main_header_word_logo {
     width: 150px; 
     height: 20px;
     cursor: pointer;
-    background-color: rgb(56, 118, 29);
+    /* background-color: rgb(56, 118, 29); */
+    background-image: -moz-linear-gradient(top, rgb(28, 173, 23), rgb(56, 118, 29));
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from( rgb(28, 173, 23)), to(rgb(56, 118, 29)));
+    background-image: -webkit-linear-gradient(top, rgb(28, 173, 23), rgb(56, 118, 29));
+    background-image: -o-linear-gradient(top, rgb(28, 173, 23), rgb(56, 118, 29));
+    background-image: linear-gradient(to bottom, rgb(28, 173, 23), rgb(56, 118, 29));
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.75);
     color: white;
     font-weight: 700;
     margin: 0 40%; 
@@ -76,8 +82,13 @@ img.main_header_word_logo {
     text-align: center; 
 }
 .logout_button_main:hover {
-    background-color: rgb(30, 239, 24);
-    color: #666666;
+    color: white;
+    /* background-position: 0 -15px; */
+    background-image: -moz-linear-gradient(top, rgb(56, 118, 29), rgb(56, 118, 29));
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from( rgb(56, 118, 29)), to(rgb(56, 118, 29)));
+    background-image: -webkit-linear-gradient(top, rgb(56, 118, 29), rgb(56, 118, 29));
+    background-image: -o-linear-gradient(top, rgb(56, 118, 29), rgb(56, 118, 29));
+    background-image: linear-gradient(to bottom, rgb(56, 118, 29), rgb(56, 118, 29));
 }
 
 
@@ -195,15 +206,24 @@ body {
     margin: 0px 10px;
     cursor: pointer;
 }
-.firechat_wrappe {
+.main_content_div {
+    height: 750px;
+}
+.firechat_wrapper {
     width: 100%;
-    height: 50%;
+    height: 750px;
 }
 .logout_button {
     width: 150px; 
     height: 20px;
     cursor: pointer;
-    background-color: rgb(56, 118, 29);
+    /* background-color: rgb(56, 118, 29); */
+    background-image: -moz-linear-gradient(top, rgb(27, 139, 23), rgb(56, 118, 29));
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from( rgb(27, 139, 23)), to(rgb(56, 118, 29)));
+    background-image: -webkit-linear-gradient(top, rgb(27, 139, 23), rgb(56, 118, 29));
+    background-image: -o-linear-gradient(top, rgb(27, 139, 23), rgb(56, 118, 29));
+    background-image: linear-gradient(to bottom, rgb(27, 139, 23), rgb(56, 118, 29));
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.75);
     color: white;
     font-weight: 700;
     margin: 0 auto; 
@@ -214,13 +234,100 @@ body {
     display: inline-block;  
 }
 .button_for_login_submit:hover {
-    background-color: rgb(30, 239, 24);
+    background-image: -moz-linear-gradient(top, rgb(56, 118, 29), rgb(56, 118, 29));
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from( rgb(56, 118, 29)), to(rgb(56, 118, 29)));
+    background-image: -webkit-linear-gradient(top, rgb(56, 118, 29), rgb(56, 118, 29));
+    background-image: -o-linear-gradient(top, rgb(56, 118, 29), rgb(56, 118, 29));
+    background-image: linear-gradient(to bottom, rgb(56, 118, 29), rgb(56, 118, 29));
     color: #666666;
 }
-/* RIGHTSIDE Section */
-.right { 
-    grid-row: span 2;
+/* My account screen */
+.forms_container {
+    height: 500px;
+    margin: 40px;
+    padding: 15px;
+    position: relative;
+    border: 1px solid #666666;
+}
+.forms_container input, .forms_container label {
+    display: block;
+}
+.forms_container input {
+    width: 300px;
+}
+.update_username_div {
+    width: 310PX;
+    margin: 80px auto 20px auto;
+}
+.update_email_div {
+    width: 310PX;
+    margin: 20px auto;
+}
+.update_password_div {
+    width: 310PX;
+    margin: 20px auto;
+}
+.update_password2_div {
+    width: 310PX;
+    margin: 20px auto;
+}
+.button_container {
+    width: 350px;
+    margin: 20px auto;
+    height: 40px;
+}
+.submit_button_main {
+    width: 150px; 
+    height: 20px;
+    cursor: pointer;
+    margin: 5px;
+    /* background-color: rgb(56, 118, 29); */
+    background-image: -moz-linear-gradient(top, rgb(27, 139, 23), rgb(56, 118, 29));
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from( rgb(28, 173, 23)), to(rgb(56, 118, 29)));
+    background-image: -webkit-linear-gradient(top, rgb(28, 173, 23), rgb(56, 118, 29));
+    background-image: -o-linear-gradient(top, rgb(28, 173, 23), rgb(56, 118, 29));
+    background-image: linear-gradient(to bottom, rgb(28, 173, 23), rgb(56, 118, 29));
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.75);
+    color: white;
+    font-weight: 700;
+    /* margin: 0 40%;  */
     padding: 3px;
+    border-radius: 5px;
+    line-height: 20px;
+    /* display: inline-block;  */
+    text-align: center; 
+    float: left;
+}
+.cancel_button_main {
+    width: 150px; 
+    height: 20px;
+    cursor: pointer;
+    margin: 5px;
+    /* background-color: rgb(56, 118, 29); */
+    background-image: -moz-linear-gradient(top, rgb(28, 173, 23), rgb(56, 118, 29));
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from( rgb(28, 173, 23)), to(rgb(56, 118, 29)));
+    background-image: -webkit-linear-gradient(top, rgb(28, 173, 23), rgb(56, 118, 29));
+    background-image: -o-linear-gradient(top, rgb(28, 173, 23), rgb(56, 118, 29));
+    background-image: linear-gradient(to bottom, rgb(28, 173, 23), rgb(56, 118, 29));
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.75);
+    color: white;
+    font-weight: 700;
+    /* margin: 0 40%;  */
+    padding: 3px;
+    border-radius: 5px;
+    line-height: 20px;
+    /* display: inline-block;  */
+    text-align: center; 
+    float: left;
+}
+.submit_button_main:hover, .cancel_button_main:hover {
+    color: white;
+    /* background-position: 0 -15px; */
+    background-image: -moz-linear-gradient(top, rgb(56, 118, 29), rgb(56, 118, 29));
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from( rgb(56, 118, 29)), to(rgb(56, 118, 29)));
+    background-image: -webkit-linear-gradient(top, rgb(56, 118, 29), rgb(56, 118, 29));
+    background-image: -o-linear-gradient(top, rgb(56, 118, 29), rgb(56, 118, 29));
+    background-image: linear-gradient(to bottom, rgb(56, 118, 29), rgb(56, 118, 29));
 }
 
 
@@ -271,7 +378,7 @@ img.logo_word{
     height: 170px;
     bottom: 40%;
     left: 15%;
-    border: 1px solid #ccc;;
+    border: 1px solid #ccc;
 }
 .input_box{
     width: 100%;
@@ -302,7 +409,13 @@ input{
     width: 150px; 
     height: 20px;
     cursor: pointer;
-    background-color: rgb(56, 118, 29);
+    /* background-color: rgb(56, 118, 29); */
+    background-image: -moz-linear-gradient(top, rgb(28, 173, 23), rgb(56, 118, 29));
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from( rgb(28, 173, 23)), to(rgb(56, 118, 29)));
+    background-image: -webkit-linear-gradient(top, rgb(28, 173, 23), rgb(56, 118, 29));
+    background-image: -o-linear-gradient(top, rgb(28, 173, 23), rgb(56, 118, 29));
+    background-image: linear-gradient(to bottom, rgb(28, 173, 23), rgb(56, 118, 29));
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.75);
     color: white;
     font-weight: 700;
     margin: 0 auto; 

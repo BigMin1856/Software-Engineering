@@ -44,7 +44,7 @@ firebase.auth().onAuthStateChanged(function (user) {
         // chatui.setUser(user.uid, user.displayName);
 
         console.log("signed in");
-        renderApplication_2(user);
+        renderApplication(user);
         // renders firechat
         initChat(user);
         //UNCOMMENT TO FORCE LOGGOUT
@@ -251,20 +251,22 @@ function renderLogInScreen() {
 
 }//end renderLogInScreen()
 
+
+
 /*-------------------------------------------------------------
-// Function: renderApplication_2
+// Function: renderApplication
 // Desc: remove login elements and replaces them with app
 // Parameters: currentUser: firebase user
 // Return:  N/A
 -------------------------------------------------------------*/
-function renderApplication_2(currentUser) { // TODO: messaging application
+function renderApplication(currentUser) { // TODO: messaging application
     // screen state is not read since app screen appears on reload if the user is logged in
     removeScreen();
 
     //////////////
     // LEFTSIDE // new conversation, settings, conversations, contacts
     //////////////
-    var user = firebase.auth().currentUser;
+    let user = firebase.auth().currentUser;
 
     //////////////
     //// MAIN ////
@@ -287,7 +289,9 @@ function renderApplication_2(currentUser) { // TODO: messaging application
                 </div>
             </div>
             <hr>
-            <div id="firechat_wrapper" class="firechat_wrapper"></div>
+            <div id="main_content_div" class="main_content_div">
+                <div id="firechat_wrapper" class="firechat_wrapper"></div>
+            </div>
             <div id="logout_button_main" class="logout_button_main">LOGOUT</div>
         </div>
         
@@ -299,6 +303,10 @@ function renderApplication_2(currentUser) { // TODO: messaging application
           .toggleClass('profile')
           .toggleClass('menu');
       });
+    $('.profile_icon_div').click(function(){
+        console.log('CLICKED MY ACCOUNT');
+        changeFirechatUItoAccountSetttings(user);
+    });
 
     // add logout button
     $('.logout_button_main').click(function() { 
@@ -306,118 +314,91 @@ function renderApplication_2(currentUser) { // TODO: messaging application
         location.reload();
          });
     
-    
-
-    // RIGHTSIDE //
+    // add home button/logo functionality
+    $('.main_header_logo_div').click(function() {
+        location.reload();
+    });
+    $('.main_header_word_logo_div').click(function() {
+        location.reload();
+    });
 
     // set screen state
     screenState = screenStates.MAIN_APP;
 }
 
 /*-------------------------------------------------------------
-// Function: renderApplication
-// Desc: remove login elements and replaces them with app
-// Parameters: currentUser: firebase user
+// Function: changeFirechatUItoAccountSetttings
+// Desc: remove login elements and replaces them with sign up
+//      elements
+// Parameters: N/A
 // Return:  N/A
 -------------------------------------------------------------*/
-function renderApplication(currentUser) { // TODO: messaging application
-    // screen state is not read since app screen appears on reload if the user is logged in
-    removeScreen();
-
-    // create main sections of the application screen
-    var container = createElementByClassId('div', 'grid_container', 'grid_container');
-    container.appendChild(createElementByClassId('div', 'leftside', 'leftside'));
-    container.appendChild(createElementByClassId('div', 'main', 'main'));
-    document.body.appendChild(container);
-    //////////////
-    // LEFTSIDE // new conversation, settings, conversations, contacts
-    //////////////
-    var user = firebase.auth().currentUser;
-    // conversations header
-    $('.leftside').html(`
-        <div class="message_header_container">
-            <div id="user_div" class="user_div">
-                ${currentUser.displayName}\'s Conversations
-            </div>
-            <div class="more_vertical_solid_div">
-                <div class="more-vertical-solid icon menu_icon"></div>
-            </div>
-        </div>
-        <hr>
-        <div class="message_header_container">
-            <div id="new_message_icon_div" class="new_message_icon_div">
-                <div class="plus icon new_message_icon"></div>
-            </div>
-            <div id="new_message_div" class="new_message_div">
-                New Message
-            </div>
-        </div>
-        `);
-    // menu functions
-    // TODO: add functionality 
-    $('.more_vertical_solid_div').hover(function(){
-        $('.menu_icon')
-            .toggleClass('more-vertical-solid')
-            .toggleClass('more-vertical');
-        });
-    // new message functions
-    // TODO: add functionality
-    $('.new_message_icon_div').hover(function(){
-        $('.new_message_icon')
-          .toggleClass('plus')
-          .toggleClass('edit');
-      })
+function changeFirechatUItoAccountSetttings(user) {
     
-    // list of conversations (aka chatrooms)
-    // TODO: retrieve list of chatrooms from firechat
-    
+    //remove chat ui 
+    $('.firechat_wrapper').remove();
 
-
-    //////////////
-    //// MAIN ////
-    //////////////
-    
-
-    $('.main').html(`
-        <div id="account_settings_container" class="account_settings_container">
-            <div id="conversation_title" class="conversation_title">
-                Receiver'sName
+    // add change forms and submit and cancel buttons
+    $('.main_content_div').html(`
+        <div id="forms_container" class="forms_container">
+            <label for="updateUsername">Enter any account information you wish to change:</label>
+            <div id="update_username_div" class="update_username_div">
+                <label id="updateUsernameLabel" for="updateUsername">Username:</label>
+                <input id="updateUsername" class="updateUsername" placeholder="New Username">
             </div>
-            <div id="profile_icon_div" class="profile_icon_div">
-                <div class="profile icon profile_icon"></div>
+            <div id="update_email_div" class="update_email_div">
+                <label id="updateEmailLabel" for="updateEmail">Email:</label>
+                <input id="updateEmail" class="updateEmail" placeholder="New Email">
             </div>
-            <div id="account_settings_message_div" class="account_settings_message_div">
-                My Account
+            <div id="update_password_div" class="update_password_div">
+                <label for="updatePassword">Password:</label>
+                <input id="updatePassword" class="updatePassword" placeholder="New Password">
             </div>
+            <div id="update_password2_div" class="update_password2_div">
+                <input id="updatePassword2" class="updatePassword2" placeholder="Re-enter New Password">
+            </div>
+            <div id="button_container" class="button_container">
+                <div id="cancel_button_main" class="cancel_button_main">CANCEL</div>
+                <div id="submit_button_main" class="submit_button_main">SUBMIT</div>  
+            </div>          
         </div>
-        <hr>
-    `); //TODO: change "receiversName" to variable
-
-    // account settings functions
-    $('.profile_icon_div').hover(function(){
-        $('.profile_icon')
-          .toggleClass('profile')
-          .toggleClass('menu');
-      });
-
-    // firechat
-    var firechatWrapper = createElementByClassId('div', 'firechat_wrapper', "firechat_wrapper");
-    document.getElementById("main").appendChild(firechatWrapper);
-
-    // add logout button
-    var logoutButton = createElementByClassId('div', 'logout_button', "logout_button");
-    logoutButton.appendChild(document.createTextNode("LOGOUT"));
-    logoutButton.onclick = function() { 
-        logOut();
+    `);
+    //show current account information
+    $('#updateUsernameLabel').text(function() {
+        console.log('email');
+        return "Current Username: " + user.displayName;
+    });
+    $('#updateEmailLabel').text(function() {
+        console.log('email');
+        return "Current Email: " + user.email;
+    });
+    
+    //add submit and cancel functionality
+    $('.cancel_button_main').click(function() {
         location.reload();
-         };
-    document.getElementById("main").appendChild(logoutButton); 
+    });
+    $('.submit_button_main').click(function() {
+        //check which values where changed/have values
+        var newUsername = $('.updateUsername').val();
+        var newEmail = $('.updateEmail').val();
+        var newPassword = $('.updatePassword').val();
+        var confirmPassword = $('.updatePassword2').val();
 
-    // RIGHTSIDE //
+        if (newUsername != '') {
+            changeUsername(newUsername);
+        }
+        if (newEmail != '') {
+            changeEmail(newEmail);
+        }
 
-    // set screen state
-    screenState = screenStates.MAIN_APP;
-}
+        if (newPassword != confirmPassword) {
+            alert('The passwords did not match');
+        }
+        else if (newPassword != '' && confirmPassword != '') {
+                changePassword(newPassword);
+            }
+    });
+}// end changeFirechatUItoAccountSetttings()
 
 /*-------------------------------------------------------------
 // Function: convertFromLoginToSignUp
@@ -874,9 +855,8 @@ function logOut() {
 //      promise is successful
 //Err:  output error message
 //-------------------------------------------------------------
-function changeEmail() {
+function changeEmail(newEmail) {
     let currentUser = firebase.auth().currentUser;
-    let newEmail = document.getElementById("updateEmail").value
 
     currentUser.updateEmail(newEmail).then(() => {
         window.alert("Success! Your new email login is: " + newEmail)
@@ -896,9 +876,8 @@ function changeEmail() {
 //      promise is successful
 //Err:  output error message
 //-------------------------------------------------------------
-function changePassword() {
+function changePassword(newPassword) {
     let currentUser = firebase.auth().currentUser;
-    let newPassword = document.getElementById("updatePassword").value
 
     currentUser.updatePassword(newPassword).then(() => {
         window.alert("Success! Your password has been updated!")
@@ -914,10 +893,8 @@ function changePassword() {
 //      promise is successful
 //Err:  output error message
 //-------------------------------------------------------------
-function changeUsername() {
+function changeUsername(newUsername) {
     let currentUser = firebase.auth().currentUser;
-
-    let newUsername = document.getElementById("updateUsername").value
 
     //Change in authentication 
     currentUser.updateProfile({
