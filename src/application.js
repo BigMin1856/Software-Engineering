@@ -351,10 +351,10 @@ function changeFirechatUItoAccountSetttings(user) {
             </div>
             <div id="update_password_div" class="update_password_div">
                 <label for="updatePassword">Password:</label>
-                <input id="updatePassword" class="updatePassword" placeholder="New Password">
+                <input id="updatePassword" type="password" class="updatePassword" placeholder="New Password">
             </div>
             <div id="update_password2_div" class="update_password2_div">
-                <input id="updatePassword2" class="updatePassword2" placeholder="Re-enter New Password">
+                <input id="updatePassword2" type="password" class="updatePassword2" placeholder="Re-enter New Password">
             </div>
             <div id="button_container" class="button_container">
                 <div id="cancel_button_main" class="cancel_button_main">CANCEL</div>
