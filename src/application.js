@@ -304,7 +304,6 @@ function renderApplication(currentUser) { // TODO: messaging application
           .toggleClass('menu');
       });
     $('.profile_icon_div').click(function(){
-        console.log('CLICKED MY ACCOUNT');
         changeFirechatUItoAccountSetttings(user);
     });
 
